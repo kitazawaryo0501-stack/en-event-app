@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>食事処えん — 参加管理</title>
+
+<!-- LINE LIFF SDK -->
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+/* ===================== リセット & ベース ===================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green:   #3B6D11; --green-bg:  #EAF3DE; --green-bd:  #97C459;
+  --red:     #A32D2D; --red-bg:    #FCEBEB; --red-bd:    #F09595;
+  --amber:   #854F0B; --amber-bg:  #FAEEDA; --amber-bd:  #EF9F27;
+  --blue:    #185FA5; --blue-bg:   #E6F1FB; --blue-bd:   #85B7EB;
+  --gray:    #5F5E5A; --gray-bg:   #F1EFE8; --gray-bd:   #B4B2A9;
+  --text:    #1a1a1a; --text-sub:  #6b6b6b; --text-hint: #aaaaaa;
+  --border:  rgba(0,0,0,0.12); --border-md: rgba(0,0,0,0.22);
+  --surface: #ffffff; --bg: #f5f4f0;
+  --radius:  10px; --radius-sm: 6px;
+  --font: -apple-system, 'Hiragino Sans', 'Meiryo', sans-serif;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; min-height: 100vh; }
+
+/* ===================== レイアウト ===================== */
+.app { max-width: 480px; margin: 0 auto; padding: 0 0 80px; }
+.header { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 14px 16px; }
+.header h1 { font-size: 17px; font-weight: 600; color: var(--text); }
+.header p  { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+/* ===================== タブ ===================== */
+.tab-bar { display: flex; background: var(--surface); border-bottom: 0.5px solid var(--border); }
+.tab { flex: 1; padding: 12px; text-align: center; font-size: 13px; font-weight: 500; color: var(--text-sub); cursor: pointer; border-bottom: 2px solid transparent; }
+.tab.active { color: var(--text); border-bottom-color: var(--text); }
+
+/* ===================== 共通カード ===================== */
+.section { padding: 16px; display: none; }
+.section.active { display: block; }
+.card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; }
+.card-label { font-size: 11px; font-weight: 600; color: var(--text-sub); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; }
+
+/* ===================== フォーム ===================== */
+input, select, textarea {
+  width: 100%; font-family: var(--font); font-size: 14px;
+  border: 0.5px solid var(--border-md); border-radius: var(--radius-sm);
+  padding: 9px 11px; background: var(--surface); color: var(--text);
+  outline: none; appearance: none;
+}
+input:focus, select:focus { border-color: #378ADD; box-shadow: 0 0 0 3px rgba(55,138,221,0.15); }
+.field { margin-bottom: 10px; }
+.field label { display: block; font-size: 12px; color: var(--text-sub); margin-bottom: 4px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* ===================== ボタン ===================== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 18px; border-radius: var(--radius-sm); border: 0.5px solid var(--border-md);
+  font-family: var(--font); font-size: 14px; font-weight: 500; cursor: pointer;
+  background: var(--surface); color: var(--text); transition: background 0.15s;
+  width: 100%; margin-top: 4px;
+}
+.btn:active { opacity: 0.75; }
+.btn-primary { background: var(--text); color: var(--surface); border-color: var(--text); }
+.btn-danger  { color: var(--red); border-color: var(--red-bd); }
+.btn-danger:hover { background: var(--red-bg); }
+.btn-green   { background: var(--green-bg); color: var(--green); border-color: var(--green-bd); }
+.btn-sm { padding: 5px 10px; font-size: 12px; width: auto; margin: 0; }
+
+/* ===================== バッジ ===================== */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.badge-open    { background: var(--green-bg); color: var(--green); }
+.badge-expired { background: var(--red-bg);   color: var(--red); }
+.badge-attend  { background: var(--green-bg); color: var(--green); }
+.badge-absent  { background: var(--red-bg);   color: var(--red); }
+.badge-pending { background: var(--amber-bg); color: var(--amber); }
+
+/* ===================== 統計 ===================== */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.stat { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px; text-align: center; }
+.stat-label { font-size: 10px; color: var(--text-sub); margin-bottom: 4px; }
+.stat-val { font-size: 20px; font-weight: 600; }
+.stat-val.g { color: var(--green); } .stat-val.r { color: var(--red); }
+.stat-val.a { color: var(--amber); } .stat-val.b { color: var(--blue); }
+
+/* ===================== イベントカード ===================== */
+.event-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s; }
+.event-card.selected { border-color: #378ADD; border-width: 1.5px; }
+.event-card:hover { border-color: var(--border-md); }
+.event-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.event-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.event-meta { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+.event-actions { display: flex; gap: 6px; margin-top: 10px; }
+
+/* ===================== 参加者テーブル ===================== */
+.member-row { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
+.member-row:last-child { border-bottom: none; }
+.member-name { flex: 1; font-size: 13px; font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.member-pay { width: 80px; text-align: right; }
+.member-status { min-width: 72px; }
+
+/* ===================== 出欠ボタン（参加者画面）===================== */
+.answer-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 12px 0 8px; }
+.answer-btn { padding: 12px 6px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); font-family: var(--font); font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; color: var(--text-sub); transition: all 0.15s; }
+.answer-btn.sel-attend { background: var(--green-bg); border-color: var(--green-bd); color: var(--green); }
+.answer-btn.sel-absent { background: var(--red-bg);   border-color: var(--red-bd);   color: var(--red); }
+.answer-btn.sel-pending{ background: var(--amber-bg); border-color: var(--amber-bd); color: var(--amber); }
+
+/* ===================== LINE プロフィール ===================== */
+.line-profile { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--surface); border-bottom: 0.5px solid var(--border); }
+.avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: var(--green-bg); display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--green); font-size: 15px; flex-shrink: 0; }
+.avatar img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+
+/* ===================== ローディング / エラー ===================== */
+.loading { text-align: center; padding: 40px; color: var(--text-sub); font-size: 14px; }
+.dot-anim::after { content: ''; animation: dots 1.2s infinite; }
+@keyframes dots { 0%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
+.err-msg { background: var(--red-bg); color: var(--red); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; margin-bottom: 10px; }
+.notice  { background: var(--amber-bg); color: var(--amber); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 12px; margin-bottom: 10px; }
+
+/* ===================== 管理者ログイン ===================== */
+.lock-screen { padding: 40px 20px; text-align: center; }
+.lock-screen h2 { font-size: 18px; margin-bottom: 8px; }
+.lock-screen p  { font-size: 13px; color: var(--text-sub); margin-bottom: 20px; }
+.lock-screen input { max-width: 240px; margin: 0 auto 12px; display: block; }
+.lock-screen .btn { max-width: 240px; margin: 0 auto; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ヘッダー -->
+<div class="header">
+  <h1>食事処えん</h1>
+  <p>参加管理システム</p>
+</div>
+
+<!-- LINE プロフィールバー（ログイン後に表示） -->
+<div id="profile-bar" style="display:none;" class="line-profile">
+  <div class="avatar" id="avatar-el">?</div>
+  <div>
+    <div id="profile-name" style="font-weight:600;font-size:14px;"></div>
+    <div style="font-size:12px;color:var(--text-sub);">LINE でログイン済み</div>
+  </div>
+</div>
+
+<!-- タブ -->
+<div class="tab-bar" id="tab-bar" style="display:none;">
+  <div class="tab active" id="tab-member" onclick="switchTab('member')">イベント一覧</div>
+  <div class="tab" id="tab-admin" onclick="switchTab('admin')" style="display:none;">管理者</div>
+</div>
+
+<!-- ===== 参加者画面 ===== -->
+<div class="section active" id="sec-member">
+  <div id="member-content" class="loading dot-anim">読み込み中</div>
+</div>
+
+<!-- ===== 管理者画面 ===== -->
+<div class="section" id="sec-admin">
+  <div id="admin-lock">
+    <div class="lock-screen">
+      <h2>管理者ログイン</h2>
+      <p>管理者パスワードを入力してください</p>
+      <input type="password" id="pw-inp" placeholder="パスワード" />
+      <button class="btn btn-primary" onclick="checkPw()">ログイン</button>
+    </div>
+  </div>
+  <div id="admin-main" style="display:none;">
+    <div id="admin-content"></div>
+  </div>
+</div>
+
+</div><!-- /.app -->
+
+<script>
+// =====================================================================
+// 設定 — ここを編集してください
+// =====================================================================
+const GAS_URL      = 'YOUR_GAS_WEB_APP_URL';   // ★GASデプロイ後のURLに置き換え
+const LIFF_ID      = 'YOUR_LIFF_ID';            // ★LINE DevelopersのLIFF IDに置き換え
+const ADMIN_PASSWORD = 'your-password';         // ★管理者パスワード（GAS側でも検証推奨）
+const ADMIN_LINE_IDS = ['Uxxxxxxxxxxxxx'];       // ★管理者のLINE UserID（複数可）
+
+// =====================================================================
+// 状態
+// =====================================================================
+let lineProfile = null;   // { userId, displayName, pictureUrl }
+let events      = [];
+let selectedEvId = null;
+let adminUnlocked = false;
+
+// =====================================================================
+// 初期化
+// =====================================================================
+async function init() {
+  try {
+    await liff.init({ liffId: LIFF_ID });
+    if (!liff.isLoggedIn()) { liff.login(); return; }
+    const profile = await liff.getProfile();
+    lineProfile = profile;
+
+    // プロフィールバー表示
+    const bar = document.getElementById('profile-bar');
+    bar.style.display = 'flex';
+    const avEl = document.getElementById('avatar-el');
+    if (profile.pictureUrl) {
+      avEl.innerHTML = `<img src="${profile.pictureUrl}" alt="avatar" />`;
+    } else {
+      avEl.textContent = profile.displayName.slice(0, 2);
+    }
+    document.getElementById('profile-name').textContent = profile.displayName;
+
+    // 管理者かどうか判定（LINE UserIDで）
+    if (ADMIN_LINE_IDS.includes(profile.userId)) {
+      document.getElementById('tab-admin').style.display = 'block';
+    }
+
+    document.getElementById('tab-bar').style.display = 'flex';
+    await loadEvents();
+    renderMemberView();
+
+  } catch (err) {
+    // デモ用フォールバック（LIFF環境外）
+    console.warn('LIFF init failed (probably not in LINE):', err.message);
+    showDemoLogin();
+  }
+}
+
+function showDemoLogin() {
+  document.getElementById('member-content').innerHTML = `
+    <div class="card" style="margin-top:0;">
+      <div class="card-label">デモモード（LINE外）</div>
+      <div class="field"><label>表示名</label><input type="text" id="demo-name" placeholder="あなたの名前" /></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary" onclick="demoLogin()">入室</button>
+        <button class="btn" onclick="showAdminLogin()">管理者として入室</button>
+      </div>
+    </div>`;
+}
+
+function demoLogin() {
+  const name = document.getElementById('demo-name').value.trim();
+  if (!name) { alert('名前を入力してください'); return; }
+  lineProfile = { userId: 'demo-' + name, displayName: name, pictureUrl: null };
+  document.getElementById('avatar-el').textContent = name.slice(0, 2);
+  document.getElementById('profile-name').textContent = name;
+  document.getElementById('profile-bar').style.display = 'flex';
+  document.getElementById('tab-bar').style.display = 'flex';
+  loadEvents().then(() => renderMemberView());
+}
+
+function showAdminLogin() {
+  lineProfile = { userId: 'demo-admin', displayName: '管理者', pictureUrl: null };
+  document.getElementById('tab-admin').style.display = 'block';
+  document.getElementById('tab-bar').style.display = 'flex';
+  document.getElementById('profile-bar').style.display = 'flex';
+  document.getElementById('avatar-el').textContent = '管';
+  document.getElementById('profile-name').textContent = '管理者';
+  switchTab('admin');
+}
+
+// =====================================================================
+// API 呼び出し
+// =====================================================================
+async function api(method, params) {
+  if (method === 'GET') {
+    const qs = new URLSearchParams(params).toString();
+    const res = await fetch(`${GAS_URL}?${qs}`);
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error);
+    return json.data;
+  } else {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify(params),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error);
+    return json.data;
+  }
+}
+
+async function loadEvents() {
+  try {
+    events = await api('GET', { action: 'getEvents' });
+  } catch (e) {
+    // GAS未設定時はサンプルデータで動作
+    events = [
+      { id: 'demo1', name: '5月の会', date: '2025-05-20', deadline: '2025-05-15', createdAt: '' },
+      { id: 'demo2', name: '6月の会', date: '2025-06-10', deadline: '2025-06-30', createdAt: '' },
+    ];
+    console.warn('GAS not configured, using demo data');
+  }
+}
+
+async function loadMembers(eventId) {
+  try {
+    return await api('GET', { action: 'getMembers', eventId });
+  } catch (e) { return []; }
+}
+
+// =====================================================================
+// タブ切り替え
+// =====================================================================
+function switchTab(tab) {
+  ['member','admin'].forEach(t => {
+    document.getElementById('sec-' + t).classList.toggle('active', t === tab);
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+  });
+  if (tab === 'admin' && adminUnlocked) renderAdminView();
+  if (tab === 'member') renderMemberView();
+}
+
+// =====================================================================
+// ===== 参加者ビュー =====
+// =====================================================================
+async function renderMemberView() {
+  const el = document.getElementById('member-content');
+  if (!events.length) {
+    el.innerHTML = '<div class="loading">現在開催予定のイベントはありません</div>';
+    return;
+  }
+  el.innerHTML = '<div class="loading dot-anim">読み込み中</div>';
+
+  const today = new Date().toISOString().split('T')[0];
+  let html = '';
+  for (const ev of events) {
+    const expired = ev.deadline && ev.deadline < today;
+    const members = await loadMembers(ev.id);
+    const me = members.find(m => m.lineUserId === lineProfile.userId);
+    const myStatus = me ? me.status : 'pending';
+    const myPay    = me ? (parseInt(me.pay) || 0) : 0;
+
+    const deadlineLabel = ev.deadline ? `回答期限: ${ev.deadline}` : '期限未設定';
+
+    html += `<div class="event-card">
+      <div class="event-head">
+        <div class="event-name">${esc(ev.name)}</div>
+        <span class="badge ${expired ? 'badge-expired' : 'badge-open'}">${expired ? '受付終了' : '受付中'}</span>
+      </div>
+      <div class="event-meta">開催日: ${ev.date}　${deadlineLabel}</div>`;
+
+    if (expired) {
+      const label = myStatus === 'attend' ? '参加予定' : myStatus === 'absent' ? '不参加' : '未回答';
+      html += `<div style="margin-top:10px;font-size:13px;color:var(--text-sub);">あなたの回答: <span class="badge badge-${myStatus}">${label}</span></div>`;
+    } else {
+      html += `<div class="answer-btns">
+        <button class="answer-btn ${myStatus==='attend'?'sel-attend':''}" onclick="submitAnswer('${ev.id}','attend',this)">参加する</button>
+        <button class="answer-btn ${myStatus==='absent'?'sel-absent':''}" onclick="submitAnswer('${ev.id}','absent',this)">不参加</button>
+        <button class="answer-btn ${myStatus==='pending'?'sel-pending':''}" onclick="submitAnswer('${ev.id}','pending',this)">未定</button>
+      </div>
+      <div class="field" style="display:flex;align-items:center;gap:8px;margin:0;">
+        <label style="white-space:nowrap;margin:0;font-size:12px;color:var(--text-sub);">支払済み</label>
+        <input type="number" min="0" value="${myPay}" style="width:100px;text-align:right;"
+          onchange="submitPay('${ev.id}',this.value)" />
+        <span style="font-size:13px;color:var(--text-sub);">円</span>
+      </div>`;
+    }
+    html += '</div>';
+  }
+  el.innerHTML = html;
+}
+
+async function submitAnswer(evId, status, btnEl) {
+  const btns = btnEl.closest('.answer-btns').querySelectorAll('.answer-btn');
+  btns.forEach(b => b.className = 'answer-btn');
+  btnEl.classList.add(`sel-${status}`);
+  try {
+    await api('POST', {
+      action: 'upsertMember',
+      eventId: evId,
+      lineUserId: lineProfile.userId,
+      lineName: lineProfile.displayName,
+      status,
+      pay: 0,
+      note: ''
+    });
+  } catch (e) { console.warn('API error:', e.message); }
+}
+
+async function submitPay(evId, val) {
+  try {
+    await api('POST', {
+      action: 'upsertMember',
+      eventId: evId,
+      lineUserId: lineProfile.userId,
+      lineName: lineProfile.displayName,
+      status: 'pending',
+      pay: parseInt(val) || 0,
+      note: ''
+    });
+  } catch (e) { console.warn('API error:', e.message); }
+}
+
+// =====================================================================
+// ===== 管理者ビュー =====
+// =====================================================================
+function checkPw() {
+  if (document.getElementById('pw-inp').value === ADMIN_PASSWORD) {
+    adminUnlocked = true;
+    document.getElementById('admin-lock').style.display = 'none';
+    document.getElementById('admin-main').style.display = 'block';
+    renderAdminView();
+  } else {
+    alert('パスワードが違います');
+  }
+}
+
+async function renderAdminView() {
+  const el = document.getElementById('admin-content');
+  const today = new Date().toISOString().split('T')[0];
+
+  // 全イベントの集計
+  let totalAttend = 0, totalAbsent = 0, totalPending = 0, totalPay = 0;
+  const allMembers = [];
+  for (const ev of events) {
+    const members = await loadMembers(ev.id);
+    ev._members = members;
+    members.forEach(m => {
+      if (m.status === 'attend') totalAttend++;
+      else if (m.status === 'absent') totalAbsent++;
+      else totalPending++;
+      totalPay += parseInt(m.pay) || 0;
+      allMembers.push(m);
+    });
+  }
+
+  let html = `
+    <div class="stats">
+      <div class="stat"><div class="stat-label">参加</div><div class="stat-val g">${totalAttend}</div></div>
+      <div class="stat"><div class="stat-label">不参加</div><div class="stat-val r">${totalAbsent}</div></div>
+      <div class="stat"><div class="stat-label">未回答</div><div class="stat-val a">${totalPending}</div></div>
+      <div class="stat"><div class="stat-label">集金合計</div><div class="stat-val b">¥${totalPay.toLocaleString()}</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">日程を追加</div>
+      <div class="field"><label>イベント名</label><input type="text" id="ev-name" placeholder="例: 6月の会" /></div>
+      <div class="row2">
+        <div class="field"><label>開催日</label><input type="date" id="ev-date" /></div>
+        <div class="field"><label>回答期限</label><input type="date" id="ev-deadline" /></div>
+      </div>
+      <button class="btn btn-primary" onclick="addEvent()">追加</button>
+    </div>`;
+
+  events.forEach(ev => {
+    const expired = ev.deadline && ev.deadline < today;
+    const members = ev._members || [];
+    const attend  = members.filter(m => m.status === 'attend').length;
+    const absent  = members.filter(m => m.status === 'absent').length;
+    const pending = members.filter(m => m.status === 'pending').length;
+    const pay     = members.reduce((s, m) => s + (parseInt(m.pay) || 0), 0);
+
+    html += `<div class="card">
+      <div class="event-head">
+        <div class="event-name">${esc(ev.name)}</div>
+        <span class="badge ${expired ? 'badge-expired' : 'badge-open'}">${expired ? '期限切れ' : '受付中'}</span>
+      </div>
+      <div class="event-meta">
+        開催: ${ev.date}　期限: ${ev.deadline || '未設定'}<br>
+        参加 ${attend} / 不参加 ${absent} / 未回答 ${pending} / 集金 ¥${pay.toLocaleString()}
+      </div>
+      ${expired ? `<div class="notice" style="margin-top:10px;">回答期限が過ぎています。参加者からの回答はロックされています。</div>` : ''}
+      <div style="margin-top:12px;">`;
+
+    if (members.length === 0) {
+      html += '<div style="font-size:13px;color:var(--text-hint);text-align:center;padding:12px 0;">まだ参加者がいません</div>';
+    } else {
+      members.forEach(m => {
+        const sLabel = m.status === 'attend' ? '参加' : m.status === 'absent' ? '不参加' : '未回答';
+        html += `<div class="member-row">
+          <div class="member-name">${esc(m.lineName)}</div>
+          <span class="badge badge-${m.status}" style="flex-shrink:0;">${sLabel}</span>
+          <input type="number" class="member-pay" min="0" value="${parseInt(m.pay)||0}"
+            onchange="adminUpdatePay('${m.id}','${ev.id}',this.value)" />
+          <button class="btn btn-sm btn-danger" onclick="adminDeleteMember('${m.id}','${ev.id}')">削除</button>
+        </div>`;
+      });
+    }
+
+    html += `</div>
+      <div class="event-actions">
+        <button class="btn btn-sm btn-green" onclick="adminExportCSV('${ev.id}')">CSV出力</button>
+        <button class="btn btn-sm btn-danger" onclick="adminDeleteEvent('${ev.id}')">この日程を削除</button>
+      </div>
+    </div>`;
+  });
+
+  el.innerHTML = html;
+}
+
+async function addEvent() {
+  const name     = document.getElementById('ev-name').value.trim();
+  const date     = document.getElementById('ev-date').value;
+  const deadline = document.getElementById('ev-deadline').value;
+  if (!name || !date) { alert('イベント名と開催日は必須です'); return; }
+  try {
+    await api('POST', { action: 'addEvent', name, date, deadline });
+    await loadEvents();
+    renderAdminView();
+  } catch (e) { alert('追加に失敗しました: ' + e.message); }
+}
+
+async function adminDeleteEvent(id) {
+  if (!confirm('この日程と参加者データをすべて削除しますか？')) return;
+  try {
+    await api('POST', { action: 'deleteEvent', id });
+    await loadEvents();
+    renderAdminView();
+  } catch (e) { alert('削除に失敗しました: ' + e.message); }
+}
+
+async function adminUpdatePay(memberId, evId, val) {
+  try {
+    await api('POST', { action: 'updateMember', id: memberId, pay: parseInt(val) || 0 });
+  } catch (e) { console.warn('Pay update failed:', e.message); }
+}
+
+async function adminDeleteMember(memberId, evId) {
+  if (!confirm('この参加者を削除しますか？')) return;
+  try {
+    await api('POST', { action: 'deleteMember', id: memberId });
+    await loadEvents();
+    renderAdminView();
+  } catch (e) { alert('削除に失敗しました: ' + e.message); }
+}
+
+async function adminExportCSV(evId) {
+  const ev = events.find(e => e.id === evId);
+  const members = await loadMembers(evId);
+  const statusMap = { attend: '参加', absent: '不参加', pending: '未回答' };
+  const rows = [
+    ['LINE名', 'ステータス', '支払額', '更新日時'],
+    ...members.map(m => [m.lineName, statusMap[m.status] || m.status, m.pay || 0, m.updatedAt || ''])
+  ];
+  const csv = '\uFEFF' + rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+  a.download = `${ev ? ev.name : evId}_参加管理.csv`;
+  a.click();
+}
+
+// =====================================================================
+// ユーティリティ
+// =====================================================================
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// =====================================================================
+// 起動
+// =====================================================================
+init();
+</script>
+</body>
+</html>
