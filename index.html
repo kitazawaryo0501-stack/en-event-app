@@ -29,21 +29,24 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .header-ja{font-family:var(--serif);font-size:24px;color:#fff;font-weight:600;letter-spacing:0.08em;}
 .header-accent{width:28px;height:2px;background:var(--vermilion);margin-top:10px;border-radius:2px;}
 
-/* PROFILE */
-.profile-bar{display:none;align-items:center;gap:12px;background:var(--surface);padding:12px 20px;border-bottom:1px solid var(--border);}
-.avatar{width:36px;height:36px;border-radius:50%;background:var(--moss-bg);border:1.5px solid var(--moss-bd);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--moss);flex-shrink:0;overflow:hidden;}
-.avatar img{width:36px;height:36px;object-fit:cover;border-radius:50%;}
-.profile-name{font-size:13px;font-weight:600;}
+/* PROFILE BAR */
+.profile-bar{display:none;align-items:center;gap:10px;background:var(--surface);padding:11px 16px;border-bottom:1px solid var(--border);}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--moss-bg);border:1.5px solid var(--moss-bd);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--moss);flex-shrink:0;overflow:hidden;}
+.avatar img{width:34px;height:34px;object-fit:cover;border-radius:50%;}
+.profile-info{flex:1;min-width:0;}
+.profile-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .profile-sub{font-size:11px;color:var(--ink-hint);}
+.profile-actions{display:flex;gap:6px;flex-shrink:0;}
+.pill-btn{font-size:11px;font-weight:500;padding:5px 10px;border-radius:20px;border:1px solid var(--border-md);background:var(--surface);color:var(--ink-sub);cursor:pointer;white-space:nowrap;transition:all 0.15s;}
+.pill-btn:active{opacity:0.7;}
+.pill-btn.admin-login{border-color:var(--vermilion);color:var(--vermilion);}
+.pill-btn.admin-login:hover{background:var(--verm-bg);}
+.pill-btn.admin-panel{background:var(--ink);color:#fff;border-color:var(--ink);}
+.pill-btn.logout{border-color:var(--border-md);color:var(--ink-hint);}
 
-/* TABS */
-.tab-bar{display:none;background:var(--surface);border-bottom:1px solid var(--border);}
-.tab{flex:1;padding:13px 8px;text-align:center;font-size:12px;font-weight:500;color:var(--ink-sub);cursor:pointer;border-bottom:2px solid transparent;letter-spacing:0.03em;}
-.tab.active{color:var(--ink);border-bottom-color:var(--vermilion);}
-
-/* SECTIONS */
-.section{padding:20px 16px;display:none;}
-.section.active{display:block;}
+/* PAGE */
+.page{padding:18px 16px;display:none;}
+.page.active{display:block;}
 
 /* CARDS */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);}
@@ -92,18 +95,13 @@ input:focus,select:focus{border-color:var(--vermilion);box-shadow:0 0 0 3px rgba
 .ev-card-name{font-family:var(--serif);font-size:16px;font-weight:600;}
 .ev-card-meta{font-size:12px;color:var(--ink-sub);}
 .ev-card-body{padding:14px 16px;}
-
-/* ANSWER BUTTONS */
 .answer-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
 .answer-btn{padding:13px 6px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;text-align:center;color:var(--ink-sub);transition:all 0.15s;}
 .answer-btn.sel-attend{background:var(--moss-bg);border-color:var(--moss-bd);color:var(--moss);}
 .answer-btn.sel-absent{background:var(--verm-bg);border-color:var(--verm-bd);color:var(--vermilion);}
 .answer-btn.sel-pending{background:var(--gold-bg);border-color:var(--gold-bd);color:var(--gold);}
-
-/* PAY ROW */
 .pay-row{display:flex;align-items:center;gap:10px;background:var(--paper);border-radius:var(--radius-sm);padding:10px 14px;}
 .pay-row label{font-size:12px;color:var(--ink-sub);white-space:nowrap;}
-.pay-row input{flex:1;max-width:120px;}
 .pay-row span{font-size:13px;color:var(--ink-sub);}
 
 /* ADMIN EVENT CARD */
@@ -113,7 +111,6 @@ input:focus,select:focus{border-color:var(--vermilion);box-shadow:0 0 0 3px rgba
 .admin-ev-meta{font-size:12px;color:var(--ink-sub);margin-top:3px;}
 .admin-ev-stats{display:flex;gap:14px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--paper);}
 .admin-ev-stat{font-size:12px;color:var(--ink-sub);}
-.admin-ev-stat b{font-weight:600;color:var(--ink);}
 .member-list{padding:0 16px;}
 .member-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border);}
 .member-row:last-child{border-bottom:none;}
@@ -122,149 +119,230 @@ input:focus,select:focus{border-color:var(--vermilion);box-shadow:0 0 0 3px rgba
 .mini-sel{font-size:11px;padding:5px 6px!important;min-width:68px;}
 .admin-ev-footer{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--border);background:var(--paper);}
 
-/* LOCK */
-.lock-screen{padding:48px 20px;text-align:center;}
-.lock-icon{width:56px;height:56px;background:var(--ink);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:22px;}
-.lock-title{font-family:var(--serif);font-size:18px;font-weight:600;margin-bottom:6px;}
-.lock-sub{font-size:13px;color:var(--ink-sub);margin-bottom:24px;}
-.lock-screen input{max-width:260px;display:block;margin:0 auto 12px;}
-.lock-screen .btn{max-width:260px;margin:0 auto;}
+/* ADMIN PAGE HEADER */
+.admin-page-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.admin-page-title{font-family:var(--serif);font-size:18px;font-weight:600;}
+.back-btn{font-size:12px;padding:5px 12px;border:1px solid var(--border-md);border-radius:20px;background:var(--surface);color:var(--ink-sub);cursor:pointer;}
 
-/* DEMO */
-.demo-wrap{padding:32px 20px;}
-.demo-title{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:6px;}
-.demo-sub{font-size:13px;color:var(--ink-sub);margin-bottom:20px;}
+/* ADMIN LOGIN MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(28,25,23,0.5);z-index:100;align-items:flex-end;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border-radius:var(--radius) var(--radius) 0 0;padding:28px 24px 40px;width:100%;max-width:430px;}
+.modal-title{font-family:var(--serif);font-size:17px;font-weight:600;margin-bottom:6px;}
+.modal-sub{font-size:13px;color:var(--ink-sub);margin-bottom:20px;}
+.modal-close{float:right;font-size:18px;border:none;background:none;color:var(--ink-hint);cursor:pointer;margin-top:-4px;}
 
 /* MISC */
 .expired-notice{background:var(--verm-bg);border:1px solid var(--verm-bd);border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;color:var(--vermilion);margin-bottom:10px;}
 .loading{text-align:center;padding:48px 20px;color:var(--ink-hint);font-size:14px;}
 .spinner{width:24px;height:24px;border:2px solid var(--border-md);border-top-color:var(--vermilion);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;}
 @keyframes spin{to{transform:rotate(360deg);}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 22px;border-radius:20px;font-size:13px;z-index:200;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
+
+/* DEMO LOGIN */
+.demo-wrap{padding:32px 20px;}
+.demo-title{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:6px;}
+.demo-sub{font-size:13px;color:var(--ink-sub);margin-bottom:20px;}
 </style>
 </head>
 <body>
 <div class="app">
+  <!-- HEADER -->
   <div class="header">
     <div class="header-en">Shokujidokoro</div>
     <div class="header-ja">食事処 えん</div>
     <div class="header-accent"></div>
   </div>
+
+  <!-- PROFILE BAR -->
   <div class="profile-bar" id="profile-bar">
     <div class="avatar" id="avatar-el">？</div>
-    <div>
+    <div class="profile-info">
       <div class="profile-name" id="profile-name"></div>
-      <div class="profile-sub">LINE でログイン済み</div>
+      <div class="profile-sub" id="profile-sub">LINE でログイン済み</div>
+    </div>
+    <div class="profile-actions" id="profile-actions"></div>
+  </div>
+
+  <!-- イベント一覧ページ -->
+  <div class="page active" id="page-member">
+    <div id="member-content">
+      <div class="loading"><div class="spinner"></div>読み込み中...</div>
     </div>
   </div>
-  <div class="tab-bar" id="tab-bar">
-    <div class="tab active" id="tab-member" onclick="switchTab('member')">イベント一覧</div>
-    <div class="tab" id="tab-admin" onclick="switchTab('admin')" style="display:none;">管理者</div>
-  </div>
-  <div class="section active" id="sec-member">
-    <div class="loading" id="member-content"><div class="spinner"></div>読み込み中...</div>
-  </div>
-  <div class="section" id="sec-admin">
-    <div id="admin-lock">
-      <div class="lock-screen">
-        <div class="lock-icon">🔒</div>
-        <div class="lock-title">管理者ログイン</div>
-        <div class="lock-sub">パスワードを入力してください</div>
-        <input type="password" id="pw-inp" placeholder="パスワード"/>
-        <button class="btn btn-primary" onclick="checkPw()" style="margin-top:4px;">ログイン</button>
-      </div>
+
+  <!-- 管理者ページ -->
+  <div class="page" id="page-admin">
+    <div class="admin-page-header">
+      <button class="back-btn" onclick="showPage('member')">← 一覧に戻る</button>
+      <div class="admin-page-title">管理者画面</div>
     </div>
-    <div id="admin-main" style="display:none;">
-      <div id="admin-content"><div class="loading"><div class="spinner"></div>読み込み中...</div></div>
+    <div id="admin-content">
+      <div class="loading"><div class="spinner"></div>読み込み中...</div>
     </div>
   </div>
-</div>
 
-<script>
-// ★ 設定
-const GAS_URL        = 'https://script.google.com/macros/s/AKfycbyj5GW6QtvA706mbB65hmMD25U1L9mrJwcHaVw6HUn0s9ydqh4uba4ZZT3eiC--f9IviA/exec';
-const LIFF_ID        = '2009962315-GErGmtBd';
-const ADMIN_PASSWORD = 'adminpass';
-const ADMIN_LINE_IDS = ['U8b7962536d1184f9c1c97e71055a9d87'];
-
-let lineProfile = null;
-let events = [];
-let adminUnlocked = false;
-
-async function init() {
-  try {
-    await liff.init({ liffId: LIFF_ID });
-    if (!liff.isLoggedIn()) { liff.login(); return; }
-    const profile = await liff.getProfile();
-    lineProfile = profile;
-    showProfile(profile);
-    if (ADMIN_LINE_IDS.includes(profile.userId)) {
-      document.getElementById('tab-admin').style.display = 'block';
-    }
-    document.getElementById('tab-bar').style.display = 'flex';
-    await loadEvents();
-    renderMemberView();
-  } catch(err) {
-    console.warn('LIFF failed:', err.message);
-    showDemoLogin();
-  }
-}
-
-function showProfile(p) {
-  const bar = document.getElementById('profile-bar');
-  bar.style.display = 'flex';
-  const av = document.getElementById('avatar-el');
-  if (p.pictureUrl) {
-    av.innerHTML = `<img src="${p.pictureUrl}" alt="avatar"/>`;
-  } else {
-    av.textContent = p.displayName.slice(0,2);
-  }
-  document.getElementById('profile-name').textContent = p.displayName;
-}
-
-function showDemoLogin() {
-  document.getElementById('member-content').innerHTML = `
+  <!-- ログイン画面（未ログイン時） -->
+  <div class="page" id="page-login">
     <div class="demo-wrap">
       <div class="demo-title">ようこそ</div>
       <div class="demo-sub">お名前を入力して参加してください</div>
       <div class="field"><input type="text" id="demo-name" placeholder="例：山田 太郎"/></div>
       <button class="btn btn-primary" onclick="demoLogin()">参加する</button>
-      <button class="btn" onclick="showAdminLogin()" style="margin-top:8px;">管理者として入る</button>
-    </div>`;
+    </div>
+  </div>
+</div>
+
+<!-- 管理者ログインモーダル -->
+<div class="modal-overlay" id="admin-modal" onclick="closeAdminModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAdminModal()">✕</button>
+    <div class="modal-title">管理者ログイン</div>
+    <div class="modal-sub">パスワードを入力してください</div>
+    <div class="field">
+      <input type="password" id="pw-inp" placeholder="パスワード"
+        onkeydown="if(event.key==='Enter')checkPw()"/>
+    </div>
+    <button class="btn btn-primary" onclick="checkPw()">ログイン</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ★ 設定
+const GAS_URL        = 'https://script.google.com/macros/s/AKfycbz1d0xEXbFxCL6miEJN2Xok5pBBd0oR2qFMWe6ZAHtaXD5uY-TqgtXqz7JFTnXrhLH1cQ/exec';
+const LIFF_ID        = '2009962315-GErGmtBd';
+const ADMIN_PASSWORD = 'adminpass';
+const ADMIN_LINE_IDS = ['U8b7962536d1184f9c1c97e71055a9d87'];
+
+let lineProfile   = null;
+let events        = [];
+let adminUnlocked = false;
+let isLiffEnv     = false;
+
+// =====================================================================
+// 初期化
+// =====================================================================
+async function init() {
+  try {
+    await liff.init({ liffId: LIFF_ID });
+    if (!liff.isLoggedIn()) { liff.login(); return; }
+    isLiffEnv = true;
+    const profile = await liff.getProfile();
+    lineProfile = profile;
+    showProfile(profile);
+    showPage('member');
+    await loadEvents();
+    renderMemberView();
+  } catch(err) {
+    console.warn('LIFF failed:', err.message);
+    showPage('login');
+  }
 }
 
+// =====================================================================
+// プロフィールバー
+// =====================================================================
+function showProfile(p) {
+  document.getElementById('profile-bar').style.display = 'flex';
+  const av = document.getElementById('avatar-el');
+  av.innerHTML = p.pictureUrl
+    ? `<img src="${p.pictureUrl}" alt="avatar"/>`
+    : esc(p.displayName.slice(0,2));
+  document.getElementById('profile-name').textContent = p.displayName;
+  renderProfileActions();
+}
+
+function renderProfileActions() {
+  const el = document.getElementById('profile-actions');
+  if (adminUnlocked) {
+    el.innerHTML = `
+      <button class="pill-btn admin-panel" onclick="showPage('admin')">管理者画面</button>
+      <button class="pill-btn logout" onclick="adminLogout()">ログアウト</button>`;
+  } else {
+    el.innerHTML = `
+      <button class="pill-btn admin-login" onclick="openAdminModal()">管理者としてログイン</button>`;
+  }
+}
+
+// =====================================================================
+// ページ切り替え
+// =====================================================================
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (name === 'admin' && adminUnlocked) renderAdminView();
+}
+
+// =====================================================================
+// デモログイン（LIFF外）
+// =====================================================================
 function demoLogin() {
   const name = document.getElementById('demo-name').value.trim();
   if (!name) { alert('お名前を入力してください'); return; }
   lineProfile = { userId: 'demo-' + encodeURIComponent(name), displayName: name, pictureUrl: null };
   showProfile(lineProfile);
-  document.getElementById('tab-bar').style.display = 'flex';
+  showPage('member');
   loadEvents().then(() => renderMemberView());
 }
 
-function showAdminLogin() {
-  lineProfile = { userId: 'demo-admin', displayName: '管理者', pictureUrl: null };
-  showProfile(lineProfile);
-  document.getElementById('tab-admin').style.display = 'block';
-  document.getElementById('tab-bar').style.display = 'flex';
-  switchTab('admin');
+// =====================================================================
+// 管理者モーダル
+// =====================================================================
+function openAdminModal() {
+  document.getElementById('admin-modal').classList.add('open');
+  setTimeout(() => document.getElementById('pw-inp').focus(), 100);
 }
 
-// API: GASはno-corsでPOSTするため、レスポンス読み取り不要
+function closeAdminModal(e) {
+  if (e && e.target !== document.getElementById('admin-modal')) return;
+  document.getElementById('admin-modal').classList.remove('open');
+  document.getElementById('pw-inp').value = '';
+}
+
+function checkPw() {
+  if (document.getElementById('pw-inp').value === ADMIN_PASSWORD) {
+    adminUnlocked = true;
+    document.getElementById('admin-modal').classList.remove('open');
+    document.getElementById('pw-inp').value = '';
+    renderProfileActions();
+    showPage('admin');
+    showToast('管理者としてログインしました');
+  } else {
+    alert('パスワードが違います');
+  }
+}
+
+function adminLogout() {
+  if (!confirm('管理者からログアウトしますか？')) return;
+  adminUnlocked = false;
+  renderProfileActions();
+  showPage('member');
+  renderMemberView();
+  showToast('ログアウトしました');
+}
+
+// =====================================================================
+// API
+// =====================================================================
 async function api(method, params) {
   if (method === 'GET') {
     const qs = new URLSearchParams(params).toString();
-    const res = await fetch(`${GAS_URL}?${qs}`);
+    const res = await fetch(`${GAS_URL}?${qs}`, { method: 'GET' });
     const json = await res.json();
     if (!json.ok) throw new Error(json.error);
     return json.data;
   } else {
-    await fetch(GAS_URL, {
+    const res = await fetch(GAS_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(params)
     });
-    return {};
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error);
+    return json.data;
   }
 }
 
@@ -273,6 +351,7 @@ async function loadEvents() {
     const data = await api('GET', { action: 'getEvents' });
     events = Array.isArray(data) ? data : [];
   } catch(e) {
+    console.warn('loadEvents failed, using demo data:', e.message);
     events = [
       { id:'demo1', name:'5月の会', date:'2025-05-20', deadline:'2025-05-15' },
       { id:'demo2', name:'6月の会', date:'2025-06-10', deadline:'2025-06-30' },
@@ -287,16 +366,16 @@ async function loadMembers(eventId) {
   } catch(e) { return []; }
 }
 
-function switchTab(tab) {
-  ['member','admin'].forEach(t => {
-    document.getElementById('sec-'+t).classList.toggle('active', t===tab);
-    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
-  });
-  if (tab==='admin' && adminUnlocked) renderAdminView();
-  if (tab==='member') renderMemberView();
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-// ---- 参加者ビュー ----
+// =====================================================================
+// 参加者ビュー
+// =====================================================================
 async function renderMemberView() {
   const el = document.getElementById('member-content');
   el.innerHTML = '<div class="loading"><div class="spinner"></div>読み込み中...</div>';
@@ -308,9 +387,9 @@ async function renderMemberView() {
   for (const ev of events) {
     const expired = ev.deadline && ev.deadline < today;
     const members = await loadMembers(ev.id);
-    const me = members.find(m => m.lineUserId === lineProfile.userId);
+    const me = members.find(m => String(m.lineUserId) === String(lineProfile.userId));
     const myStatus = me ? me.status : '';
-    const myPay = me ? (parseInt(me.pay)||0) : 0;
+    const myPay    = me ? (parseInt(me.pay)||0) : 0;
     html += `<div class="ev-card">
       <div class="ev-card-header">
         <div class="ev-card-top">
@@ -326,13 +405,14 @@ async function renderMemberView() {
         <div style="font-size:13px;color:var(--ink-sub);">あなたの回答: <span class="badge badge-${myStatus||'pending'}">${label}</span></div>`;
     } else {
       html += `<div class="answer-btns">
-        <button class="answer-btn ${myStatus==='attend'?'sel-attend':''}" onclick="submitAnswer('${ev.id}','attend',this)">参加する</button>
-        <button class="answer-btn ${myStatus==='absent'?'sel-absent':''}" onclick="submitAnswer('${ev.id}','absent',this)">不参加</button>
+        <button class="answer-btn ${myStatus==='attend'?'sel-attend':''}"  onclick="submitAnswer('${ev.id}','attend',this)">参加する</button>
+        <button class="answer-btn ${myStatus==='absent'?'sel-absent':''}"  onclick="submitAnswer('${ev.id}','absent',this)">不参加</button>
         <button class="answer-btn ${(!myStatus||myStatus==='pending')?'sel-pending':''}" onclick="submitAnswer('${ev.id}','pending',this)">未定</button>
       </div>
       <div class="pay-row">
         <label>支払済み金額</label>
-        <input type="number" min="0" value="${myPay}" style="width:100px;" onchange="submitPay('${ev.id}',this.value)"/>
+        <input type="number" min="0" value="${myPay}" style="width:100px;"
+          onchange="submitPay('${ev.id}',this.value)"/>
         <span>円</span>
       </div>`;
     }
@@ -345,23 +425,26 @@ async function submitAnswer(evId, status, btnEl) {
   const btns = btnEl.closest('.answer-btns').querySelectorAll('.answer-btn');
   btns.forEach(b => b.className='answer-btn');
   btnEl.classList.add('sel-'+status);
-  await api('POST', { action:'upsertMember', eventId:evId, lineUserId:lineProfile.userId, lineName:lineProfile.displayName, status, pay:0, note:'' }).catch(e=>console.warn(e));
+  try {
+    await api('POST', { action:'upsertMember', eventId:evId,
+      lineUserId:lineProfile.userId, lineName:lineProfile.displayName,
+      status, pay:0, note:'' });
+    showToast('回答を保存しました ✓');
+  } catch(e) { showToast('保存に失敗しました'); console.warn(e); }
 }
 
 async function submitPay(evId, val) {
-  await api('POST', { action:'upsertMember', eventId:evId, lineUserId:lineProfile.userId, lineName:lineProfile.displayName, status:'pending', pay:parseInt(val)||0, note:'' }).catch(e=>console.warn(e));
+  try {
+    await api('POST', { action:'upsertMember', eventId:evId,
+      lineUserId:lineProfile.userId, lineName:lineProfile.displayName,
+      status:'pending', pay:parseInt(val)||0, note:'' });
+    showToast('金額を保存しました ✓');
+  } catch(e) { showToast('保存に失敗しました'); console.warn(e); }
 }
 
-// ---- 管理者ビュー ----
-function checkPw() {
-  if (document.getElementById('pw-inp').value === ADMIN_PASSWORD) {
-    adminUnlocked = true;
-    document.getElementById('admin-lock').style.display = 'none';
-    document.getElementById('admin-main').style.display = 'block';
-    renderAdminView();
-  } else { alert('パスワードが違います'); }
-}
-
+// =====================================================================
+// 管理者ビュー
+// =====================================================================
 async function renderAdminView() {
   const el = document.getElementById('admin-content');
   el.innerHTML = '<div class="loading"><div class="spinner"></div>読み込み中...</div>';
@@ -377,6 +460,7 @@ async function renderAdminView() {
       tp += parseInt(m.pay)||0;
     });
   }
+
   let html = `
     <div class="stats">
       <div class="stat"><div class="stat-label">参加（累計）</div><div class="stat-val g">${ta}</div></div>
@@ -391,7 +475,7 @@ async function renderAdminView() {
         <div class="field"><label>開催日</label><input type="date" id="ev-date"/></div>
         <div class="field"><label>回答期限</label><input type="date" id="ev-deadline"/></div>
       </div>
-      <button class="btn btn-vermilion" onclick="addEvent()">日程を追加する</button>
+      <button class="btn btn-vermilion" id="add-ev-btn" onclick="addEvent()">日程を追加する</button>
     </div>`;
 
   events.forEach(ev => {
@@ -449,48 +533,54 @@ async function addEvent() {
   const date     = document.getElementById('ev-date').value;
   const deadline = document.getElementById('ev-deadline').value;
   if (!name||!date) { alert('イベント名と開催日は必須です'); return; }
+  const btn = document.getElementById('add-ev-btn');
+  btn.textContent = '追加中...'; btn.disabled = true;
   try {
     await api('POST', { action:'addEvent', name, date, deadline });
-    await new Promise(r=>setTimeout(r,1000));
+    showToast('日程を追加しました ✓');
     await loadEvents();
     renderAdminView();
-  } catch(e) { alert('追加に失敗しました: '+e.message); }
+  } catch(e) {
+    alert('追加に失敗しました: ' + e.message);
+    btn.textContent = '日程を追加する'; btn.disabled = false;
+  }
 }
 
 async function adminDeleteEvent(id) {
   if (!confirm('この日程と参加者データをすべて削除しますか？')) return;
   try {
     await api('POST', { action:'deleteEvent', id });
-    await new Promise(r=>setTimeout(r,1000));
-    await loadEvents();
-    renderAdminView();
-  } catch(e) { alert('削除に失敗しました: '+e.message); }
+    showToast('削除しました');
+    await loadEvents(); renderAdminView();
+  } catch(e) { alert('削除に失敗しました: ' + e.message); }
 }
 
 async function adminUpdateStatus(mId, evId, val) {
-  await api('POST', { action:'updateMember', id:mId, status:val }).catch(e=>console.warn(e));
-  await new Promise(r=>setTimeout(r,800));
-  await loadEvents();
-  renderAdminView();
+  try { await api('POST', { action:'updateMember', id:mId, status:val }); showToast('更新しました'); }
+  catch(e) { console.warn(e); }
+  await loadEvents(); renderAdminView();
 }
 
 async function adminUpdatePay(mId, val) {
-  await api('POST', { action:'updateMember', id:mId, pay:parseInt(val)||0 }).catch(e=>console.warn(e));
+  try { await api('POST', { action:'updateMember', id:mId, pay:parseInt(val)||0 }); showToast('金額を保存しました'); }
+  catch(e) { console.warn(e); }
 }
 
-async function adminDeleteMember(mId, evId) {
+async function adminDeleteMember(mId) {
   if (!confirm('この参加者を削除しますか？')) return;
-  await api('POST', { action:'deleteMember', id:mId }).catch(e=>console.warn(e));
-  await new Promise(r=>setTimeout(r,800));
-  await loadEvents();
-  renderAdminView();
+  try {
+    await api('POST', { action:'deleteMember', id:mId });
+    showToast('削除しました');
+    await loadEvents(); renderAdminView();
+  } catch(e) { alert('削除に失敗しました: ' + e.message); }
 }
 
 async function adminExportCSV(evId) {
   const ev = events.find(e=>e.id===evId);
   const members = await loadMembers(evId);
   const sm = {attend:'参加',absent:'不参加',pending:'未回答'};
-  const rows = [['LINE名','ステータス','支払額','更新日時'],...members.map(m=>[m.lineName,sm[m.status]||m.status,m.pay||0,m.updatedAt||''])];
+  const rows = [['LINE名','ステータス','支払額','更新日時'],
+    ...members.map(m=>[m.lineName,sm[m.status]||m.status,m.pay||0,m.updatedAt||''])];
   const csv = '\uFEFF'+rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
