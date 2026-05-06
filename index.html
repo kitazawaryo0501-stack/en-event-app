@@ -212,7 +212,7 @@ input:focus,select:focus{border-color:var(--vermilion);box-shadow:0 0 0 3px rgba
 
 <script>
 // ★ 設定
-const GAS_URL        = 'https://script.google.com/macros/s/AKfycbxnuoQdNIufrMiMYiPHNCWaHK1wHznVBlIpGvbIf1xl3W27UBtDSNB-gdr4asn0Y4NucA/exec';
+const GAS_URL        = 'https://script.google.com/macros/s/AKfycbwaHqH1hFUcCSk-y0CrzpIQ49UKN_KxL7EdiAwRbfqWfXX1txKmIOnB6N3jggpeF_eznw/exec';
 const LIFF_ID        = '2009962315-GErGmtBd';
 const ADMIN_PASSWORD = 'adminpass';
 const ADMIN_LINE_IDS = ['U8b7962536d1184f9c1c97e71055a9d87'];
@@ -327,23 +327,13 @@ function adminLogout() {
 // =====================================================================
 // API
 // =====================================================================
+// GASはPOSTのCORSヘッダーを付与できないため全操作をGETで送信
 async function api(method, params) {
-  if (method === 'GET') {
-    const qs = new URLSearchParams(params).toString();
-    const res = await fetch(`${GAS_URL}?${qs}`, { method: 'GET' });
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
-    return json.data;
-  } else {
-    const res = await fetch(GAS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(params)
-    });
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error);
-    return json.data;
-  }
+  const qs = new URLSearchParams(params).toString();
+  const res = await fetch(`${GAS_URL}?${qs}`, { method: 'GET' });
+  const json = await res.json();
+  if (!json.ok) throw new Error(json.error);
+  return json.data;
 }
 
 async function loadEvents() {
