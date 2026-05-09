@@ -241,6 +241,18 @@ input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,
 .toast.show{opacity:1;}
 .section-title{font-family:var(--serif);font-size:13px;font-weight:400;color:var(--ink-sub);letter-spacing:0.08em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
 .section-title::before{content:'';width:3px;height:13px;background:var(--verm);border-radius:2px;display:inline-block;}
+.submit-area{margin-top:14px;}
+.btn-submit{
+  width:100%;padding:14px;border-radius:var(--radius-sm);
+  background:var(--ink);color:#fff;border:none;
+  font-family:var(--sans);font-size:14px;font-weight:600;
+  cursor:pointer;letter-spacing:0.06em;transition:opacity 0.15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-submit:active{opacity:0.75;}
+.btn-submit:disabled{background:var(--ink-hint);cursor:not-allowed;}
+.btn-submit.done{background:var(--moss);}
+.answer-pending{color:var(--ink-hint);font-size:12px;text-align:center;margin-top:10px;}
 </style>
 </head>
 <body>
@@ -519,28 +531,36 @@ async function renderMemberView() {
           ${myBottle ? `<span class="badge ${myBottle==='bring'?'badge-bring':'badge-nobring'}">${bLabel}</span>` : ''}
         </div>`;
     } else {
-      // 出欠
+      // 送信済みかどうかで表示を変える
+      const isAnswered = myStatus && myBottle;
+      const submitLabel = isAnswered ? '回答済み ✓' : '回答する';
+      const submitClass = isAnswered ? 'done' : '';
       html += `<div class="answer-section">
         <div class="answer-label">出欠を回答する</div>
-        <div class="answer-btns">
-          <button class="answer-btn ${myStatus==='attend'?'sel-attend':''}"  onclick="submitAnswer('${ev.id}','attend',this)">参加する</button>
-          <button class="answer-btn ${myStatus==='absent'?'sel-absent':''}"  onclick="submitAnswer('${ev.id}','absent',this)">不参加</button>
-          <button class="answer-btn ${(!myStatus||myStatus==='pending')?'sel-pending':''}" onclick="submitAnswer('${ev.id}','pending',this)">未定</button>
+        <div class="answer-btns" id="ans-${ev.id}">
+          <button class="answer-btn ${myStatus==='attend'?'sel-attend':''}" onclick="selectAnswer('${ev.id}','attend',this)">参加する</button>
+          <button class="answer-btn ${myStatus==='absent'?'sel-absent':''}" onclick="selectAnswer('${ev.id}','absent',this)">不参加</button>
+          <button class="answer-btn ${(!myStatus||myStatus==='pending')?'sel-pending':''}" onclick="selectAnswer('${ev.id}','pending',this)">未定</button>
         </div>
       </div>
       <div class="divider-row"></div>
       <div class="bottle-section">
         <div class="bottle-label">ボトル持ち込み</div>
-        <div class="bottle-opts">
-          <button class="bottle-btn ${myBottle==='bring'?'sel-bring':''}" onclick="submitBottle('${ev.id}','bring',this)">
+        <div class="bottle-opts" id="bot-${ev.id}">
+          <button class="bottle-btn ${myBottle==='bring'?'sel-bring':''}" onclick="selectBottle('${ev.id}','bring',this)">
             持ち込む
             <small>¥${PRICE_BRING.toLocaleString()}</small>
           </button>
-          <button class="bottle-btn ${myBottle==='nobring'?'sel-nobring':''}" onclick="submitBottle('${ev.id}','nobring',this)">
+          <button class="bottle-btn ${myBottle==='nobring'?'sel-nobring':''}" onclick="selectBottle('${ev.id}','nobring',this)">
             持ち込まない
             <small>¥${PRICE_NOBRING.toLocaleString()}</small>
           </button>
         </div>
+      </div>
+      <div class="submit-area">
+        <button class="btn-submit ${submitClass}" id="submit-${ev.id}" onclick="submitAll('${ev.id}')">
+          ${submitLabel}
+        </button>
       </div>`;
     }
     html += '</div></div>';
@@ -548,38 +568,54 @@ async function renderMemberView() {
   el.innerHTML = html;
 }
 
-async function submitAnswer(evId, status, btnEl) {
+// 選択のみ（送信しない）
+function selectAnswer(evId, status, btnEl) {
   const btns = btnEl.closest('.answer-btns').querySelectorAll('.answer-btn');
   btns.forEach(b => b.className='answer-btn');
   btnEl.classList.add('sel-'+status);
-  // 現在のボトル選択を保持しながら更新
-  const members = await loadMembers(evId);
-  const me = members.find(m => String(m.lineUserId) === String(lineProfile.userId));
-  const bottle = me ? me.note : '';
-  const pay = bottle === 'bring' ? PRICE_BRING : bottle === 'nobring' ? PRICE_NOBRING : 0;
-  try {
-    await api({ action:'upsertMember', eventId:evId,
-      lineUserId:lineProfile.userId, lineName:lineProfile.displayName,
-      status, pay, note: bottle });
-    showToast('回答を保存しました ✓');
-  } catch(e) { showToast('保存に失敗しました'); }
+  // 送信ボタンをリセット
+  const btn = document.getElementById('submit-'+evId);
+  if (btn) { btn.textContent='回答する'; btn.classList.remove('done'); btn.disabled=false; }
 }
 
-async function submitBottle(evId, bottle, btnEl) {
+function selectBottle(evId, bottle, btnEl) {
   const btns = btnEl.closest('.bottle-opts').querySelectorAll('.bottle-btn');
   btns.forEach(b => b.className='bottle-btn');
   btnEl.classList.add(bottle==='bring'?'sel-bring':'sel-nobring');
+  // 送信ボタンをリセット
+  const btn = document.getElementById('submit-'+evId);
+  if (btn) { btn.textContent='回答する'; btn.classList.remove('done'); btn.disabled=false; }
+}
+
+// 一括送信
+async function submitAll(evId) {
+  // 出欠の選択状態を取得
+  const ansArea = document.getElementById('ans-'+evId);
+  const selAns  = ansArea ? ansArea.querySelector('.answer-btn.sel-attend, .answer-btn.sel-absent, .answer-btn.sel-pending') : null;
+  const status  = selAns ? (selAns.classList.contains('sel-attend')?'attend':selAns.classList.contains('sel-absent')?'absent':'pending') : '';
+
+  // ボトルの選択状態を取得
+  const botArea = document.getElementById('bot-'+evId);
+  const selBot  = botArea ? botArea.querySelector('.bottle-btn.sel-bring, .bottle-btn.sel-nobring') : null;
+  const bottle  = selBot ? (selBot.classList.contains('sel-bring')?'bring':'nobring') : '';
+
+  if (!status) { showToast('出欠を選択してください'); return; }
+  if (!bottle) { showToast('ボトル持ち込みを選択してください'); return; }
+
   const pay = bottle === 'bring' ? PRICE_BRING : PRICE_NOBRING;
-  // 現在の出欠を保持しながら更新
-  const members = await loadMembers(evId);
-  const me = members.find(m => String(m.lineUserId) === String(lineProfile.userId));
-  const status = me ? me.status : 'pending';
+  const btn = document.getElementById('submit-'+evId);
+  if (btn) { btn.textContent='送信中...'; btn.disabled=true; }
+
   try {
     await api({ action:'upsertMember', eventId:evId,
       lineUserId:lineProfile.userId, lineName:lineProfile.displayName,
       status, pay, note: bottle });
-    showToast('ボトル選択を保存しました ✓');
-  } catch(e) { showToast('保存に失敗しました'); }
+    if (btn) { btn.textContent='回答済み ✓'; btn.classList.add('done'); btn.disabled=false; }
+    showToast('回答を送信しました ✓');
+  } catch(e) {
+    if (btn) { btn.textContent='回答する'; btn.disabled=false; }
+    showToast('送信に失敗しました');
+  }
 }
 
 // =====================================================================
