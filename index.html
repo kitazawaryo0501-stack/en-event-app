@@ -80,10 +80,16 @@ input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,
 .ev-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow);position:relative;}
 .ev-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--moss);}
 .ev-card.expired::before{background:var(--ink-hint);}
-.ev-card-header{padding:14px 16px 10px 20px;border-bottom:1px solid var(--border);}
-.ev-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px;}
-.ev-card-name{font-family:var(--serif);font-size:15px;font-weight:400;letter-spacing:0.06em;}
-.ev-card-meta{font-size:11px;color:var(--ink-sub);margin-top:2px;}
+.ev-card-header{padding:16px 16px 14px 20px;border-bottom:1px solid var(--border);}
+.ev-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px;}
+.ev-card-name{font-family:var(--serif);font-size:17px;font-weight:400;letter-spacing:0.08em;}
+.ev-card-info{margin-top:0;}
+.ev-card-info-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.ev-card-info-row:last-child{margin-bottom:0;}
+.ev-card-info-label{font-size:10px;font-weight:600;color:var(--ink-hint);letter-spacing:0.08em;width:52px;flex-shrink:0;}
+.ev-card-info-val{font-size:13px;color:var(--ink-sub);}
+.ev-card-info-val.urgent{color:var(--verm);font-weight:600;}
+.ev-card-info-val.urgent::after{content:' ⚠ 期限間近';font-size:10px;font-weight:500;}
 .ev-card-body{padding:14px 16px 14px 20px;}
 
 /* ANSWER */
@@ -449,13 +455,28 @@ async function renderEventList() {
     const myBottle = me ? me.note   : '';
     const isAnswered = myStatus && myBottle;
 
+    // 期限まで何日か計算
+    const deadlineDate = ev.deadline ? new Date(ev.deadline) : null;
+    const todayDate = new Date(today);
+    const diffDays = deadlineDate ? Math.ceil((deadlineDate - todayDate) / (1000*60*60*24)) : null;
+    const isUrgent = !expired && diffDays !== null && diffDays <= 2 && diffDays >= 0;
+
     html += `<div class="ev-card ${expired?'expired':''}">
       <div class="ev-card-header">
         <div class="ev-card-top">
           <div class="ev-card-name">${esc(ev.name)}</div>
           <span class="badge ${expired?'badge-expired':'badge-open'}">${expired?'受付終了':'受付中'}</span>
         </div>
-        <div class="ev-card-meta">開催日 ${ev.date}　回答期限 ${ev.deadline||'未設定'}</div>
+        <div class="ev-card-info">
+          <div class="ev-card-info-row">
+            <span class="ev-card-info-label">開催日</span>
+            <span class="ev-card-info-val">${ev.date}</span>
+          </div>
+          <div class="ev-card-info-row">
+            <span class="ev-card-info-label">回答期限</span>
+            <span class="ev-card-info-val ${isUrgent?'urgent':''}">${ev.deadline||'未設定'}${isUrgent?' ⚠ 期限間近':''}</span>
+          </div>
+        </div>
       </div>
       <div class="ev-card-body">`;
 
