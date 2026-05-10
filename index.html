@@ -19,139 +19,95 @@
   --radius:16px;--radius-sm:10px;--radius-xs:6px;
   --serif:'Noto Serif JP',serif;--sans:'Noto Sans JP',sans-serif;
   --shadow:0 2px 8px rgba(26,18,8,0.07);
-  --shadow-lg:0 4px 20px rgba(26,18,8,0.10);
 }
 body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased;}
 .app{max-width:430px;margin:0 auto;padding-bottom:80px;}
 
-/* ===== HEADER ===== */
-.header{
-  background:var(--ink);
-  padding:24px 20px 20px;
-  position:relative;
-  overflow:hidden;
-}
-.header::before{
-  content:'';position:absolute;top:-20px;right:-20px;
-  width:120px;height:120px;
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:50%;
-}
-.header::after{
-  content:'';position:absolute;top:10px;right:10px;
-  width:70px;height:70px;
-  border:1px solid rgba(255,255,255,0.04);
-  border-radius:50%;
-}
+/* HEADER */
+.header{background:var(--ink);padding:24px 20px 20px;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-20px;right:-20px;width:120px;height:120px;border:1px solid rgba(255,255,255,0.06);border-radius:50%;}
+.header::after{content:'';position:absolute;top:10px;right:10px;width:70px;height:70px;border:1px solid rgba(255,255,255,0.04);border-radius:50%;}
 .header-en{font-size:9px;letter-spacing:0.25em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:6px;}
 .header-ja{font-family:var(--serif);font-size:26px;color:#fff;font-weight:400;letter-spacing:0.12em;}
-.header-kamon{
-  position:absolute;right:20px;top:50%;transform:translateY(-50%);
-  width:44px;height:44px;opacity:0.12;
-}
+.header-kamon{position:absolute;right:20px;top:50%;transform:translateY(-50%);width:44px;height:44px;opacity:0.12;}
 .header-accent{width:24px;height:1px;background:var(--verm);margin-top:12px;opacity:0.8;}
 
-/* ===== PROFILE BAR ===== */
-.profile-bar{
-  display:none;align-items:center;gap:10px;
-  background:var(--surface);padding:12px 16px;
-  border-bottom:1px solid var(--border);
-}
-.avatar{
-  width:36px;height:36px;border-radius:50%;
-  background:var(--moss-bg);border:1.5px solid var(--moss-bd);
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:600;color:var(--moss);
-  flex-shrink:0;overflow:hidden;
-}
+/* PROFILE BAR */
+.profile-bar{display:none;align-items:center;gap:10px;background:var(--surface);padding:12px 16px;border-bottom:1px solid var(--border);}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--moss-bg);border:1.5px solid var(--moss-bd);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--moss);flex-shrink:0;overflow:hidden;}
 .avatar img{width:36px;height:36px;object-fit:cover;border-radius:50%;}
 .profile-info{flex:1;min-width:0;}
 .profile-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .profile-sub{font-size:10px;color:var(--ink-hint);margin-top:1px;}
 .profile-actions{display:flex;gap:6px;flex-shrink:0;}
-.pill-btn{
-  font-size:11px;font-weight:500;padding:5px 11px;
-  border-radius:20px;border:1px solid var(--border-md);
-  background:var(--surface);color:var(--ink-sub);
-  cursor:pointer;white-space:nowrap;transition:all 0.15s;
-}
+.pill-btn{font-size:11px;font-weight:500;padding:5px 11px;border-radius:20px;border:1px solid var(--border-md);background:var(--surface);color:var(--ink-sub);cursor:pointer;white-space:nowrap;transition:all 0.15s;}
 .pill-btn.admin-login{border-color:var(--verm);color:var(--verm);}
-.pill-btn.admin-login:hover{background:var(--verm-bg);}
 .pill-btn.admin-panel{background:var(--ink);color:#fff;border-color:var(--ink);}
 .pill-btn.logout{color:var(--ink-hint);}
 
-/* ===== TAB BAR (user) ===== */
-.tab-bar{
-  display:flex;background:var(--surface);
-  border-bottom:1px solid var(--border);
-  padding:0 16px;gap:0;
-}
-.tab-btn{
-  flex:1;padding:13px 8px;text-align:center;
-  font-size:12px;font-weight:500;color:var(--ink-hint);
-  cursor:pointer;border-bottom:2px solid transparent;
-  letter-spacing:0.04em;transition:all 0.15s;
-}
-.tab-btn.active{color:var(--ink);border-bottom-color:var(--verm);}
-
-/* ===== PAGES ===== */
-.page{padding:18px 16px;display:none;}
+/* PAGES */
+.page{display:none;}
 .page.active{display:block;}
 
-/* ===== EVENT CARDS (user) ===== */
-.ev-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;margin-bottom:14px;
-  box-shadow:var(--shadow);
-  position:relative;
-}
-.ev-card::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;
-  width:3px;background:var(--moss);
-}
+/* ===== ログイン画面 ===== */
+.login-wrap{padding:40px 20px;}
+.login-kamon{font-size:40px;text-align:center;margin-bottom:16px;opacity:0.25;}
+.login-title{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:6px;text-align:center;letter-spacing:0.1em;}
+.login-sub{font-size:13px;color:var(--ink-sub);margin-bottom:28px;text-align:center;}
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--ink-sub);letter-spacing:0.05em;margin-bottom:5px;}
+input[type=text],input[type=password],input[type=date],input[type=number],select{width:100%;font-family:var(--sans);font-size:14px;border:1px solid var(--border-md);border-radius:var(--radius-sm);padding:10px 13px;background:var(--surface);color:var(--ink);outline:none;appearance:none;transition:border-color 0.15s,box-shadow 0.15s;}
+input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,53,42,0.08);}
+
+/* ===== 主催者選択画面 ===== */
+.host-grid{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+.host-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:12px;}
+.host-card:hover{border-color:var(--verm-bd);background:var(--verm-bg);}
+.host-icon{width:40px;height:40px;border-radius:50%;background:var(--verm-bg);border:1.5px solid var(--verm-bd);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:14px;font-weight:600;color:var(--verm);flex-shrink:0;}
+.host-name{font-family:var(--serif);font-size:15px;font-weight:400;letter-spacing:0.06em;}
+.host-count{font-size:11px;color:var(--ink-hint);margin-top:2px;}
+
+/* ===== イベント一覧 (user) ===== */
+.tab-bar{display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;}
+.tab-btn{flex:1;padding:13px 8px;text-align:center;font-size:12px;font-weight:500;color:var(--ink-hint);cursor:pointer;border-bottom:2px solid transparent;letter-spacing:0.04em;transition:all 0.15s;}
+.tab-btn.active{color:var(--ink);border-bottom-color:var(--verm);}
+.page-header{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--surface);border-bottom:1px solid var(--border);}
+.page-header-title{font-family:var(--serif);font-size:15px;font-weight:400;letter-spacing:0.06em;}
+.back-btn{font-size:11px;padding:5px 12px;border:1px solid var(--border-md);border-radius:20px;background:var(--surface);color:var(--ink-sub);cursor:pointer;white-space:nowrap;}
+
+/* EVENT CARDS */
+.ev-list{padding:18px 16px;}
+.ev-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow);position:relative;}
+.ev-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--moss);}
 .ev-card.expired::before{background:var(--ink-hint);}
 .ev-card-header{padding:14px 16px 10px 20px;border-bottom:1px solid var(--border);}
 .ev-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px;}
-.ev-card-name{font-family:var(--serif);font-size:16px;font-weight:400;letter-spacing:0.06em;}
-.ev-card-meta{font-size:11px;color:var(--ink-sub);margin-top:2px;letter-spacing:0.03em;}
+.ev-card-name{font-family:var(--serif);font-size:15px;font-weight:400;letter-spacing:0.06em;}
+.ev-card-meta{font-size:11px;color:var(--ink-sub);margin-top:2px;}
 .ev-card-body{padding:14px 16px 14px 20px;}
 
-/* ===== BOTTLE SELECT ===== */
-.bottle-section{margin-bottom:12px;}
-.bottle-label{font-size:11px;font-weight:600;color:var(--ink-sub);letter-spacing:0.06em;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-.bottle-label::before{content:'🍾';font-size:13px;}
-.bottle-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.bottle-btn{
-  padding:11px 8px;border:1.5px solid var(--border);
-  border-radius:var(--radius-sm);background:var(--surface);
-  font-family:var(--sans);font-size:12px;font-weight:500;
-  cursor:pointer;text-align:center;color:var(--ink-sub);
-  transition:all 0.15s;line-height:1.4;
-}
-.bottle-btn small{display:block;font-size:10px;color:var(--ink-hint);margin-top:2px;}
-.bottle-btn.sel-bring{background:var(--moss-bg);border-color:var(--moss-bd);color:var(--moss);}
-.bottle-btn.sel-nobring{background:var(--indigo-bg);border-color:var(--indigo-bd);color:var(--indigo);}
-
-/* ===== ANSWER BUTTONS ===== */
+/* ANSWER */
 .answer-section{margin-bottom:0;}
-.answer-label{font-size:11px;font-weight:600;color:var(--ink-sub);letter-spacing:0.06em;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-.answer-label::before{content:'📋';font-size:13px;}
+.section-label{font-size:11px;font-weight:600;color:var(--ink-sub);letter-spacing:0.06em;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
 .answer-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
-.answer-btn{
-  padding:12px 6px;border:1.5px solid var(--border);
-  border-radius:var(--radius-sm);background:var(--surface);
-  font-family:var(--sans);font-size:12px;font-weight:500;
-  cursor:pointer;text-align:center;color:var(--ink-sub);
-  transition:all 0.15s;
-}
+.answer-btn{padding:12px 6px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer;text-align:center;color:var(--ink-sub);transition:all 0.15s;}
 .answer-btn.sel-attend{background:var(--moss-bg);border-color:var(--moss-bd);color:var(--moss);}
 .answer-btn.sel-absent{background:var(--verm-bg);border-color:var(--verm-bd);color:var(--verm);}
 .answer-btn.sel-pending{background:var(--gold-bg);border-color:var(--gold-bd);color:var(--gold);}
 .divider-row{height:1px;background:var(--border);margin:12px 0;}
+.bottle-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.bottle-btn{padding:11px 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer;text-align:center;color:var(--ink-sub);transition:all 0.15s;line-height:1.4;}
+.bottle-btn small{display:block;font-size:10px;color:var(--ink-hint);margin-top:2px;}
+.bottle-btn.sel-bring{background:var(--moss-bg);border-color:var(--moss-bd);color:var(--moss);}
+.bottle-btn.sel-nobring{background:var(--indigo-bg);border-color:var(--indigo-bd);color:var(--indigo);}
+.submit-area{margin-top:14px;}
+.btn-submit{width:100%;padding:14px;border-radius:var(--radius-sm);background:var(--ink);color:#fff;border:none;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;letter-spacing:0.06em;transition:opacity 0.15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-submit:active{opacity:0.75;}
+.btn-submit:disabled{background:var(--ink-hint);cursor:not-allowed;}
+.btn-submit.done{background:var(--moss);}
+.expired-notice{background:var(--surface2);border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;color:var(--ink-hint);margin-bottom:10px;text-align:center;border:1px solid var(--border);}
 
-/* ===== BADGES ===== */
+/* BADGES */
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.03em;}
 .badge-open{background:var(--moss-bg);color:var(--moss);}
 .badge-expired{background:var(--surface2);color:var(--ink-hint);border:1px solid var(--border);}
@@ -161,38 +117,16 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .badge-bring{background:var(--moss-bg);color:var(--moss);}
 .badge-nobring{background:var(--indigo-bg);color:var(--indigo);}
 
-/* ===== EXPIRED NOTICE ===== */
-.expired-notice{
-  background:var(--surface2);border-radius:var(--radius-sm);
-  padding:10px 14px;font-size:12px;color:var(--ink-hint);
-  margin-bottom:10px;text-align:center;
-  border:1px solid var(--border);
-}
-
-/* ===== ADMIN ===== */
-.admin-page-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-.admin-page-title{font-family:var(--serif);font-size:18px;font-weight:400;letter-spacing:0.06em;}
-.back-btn{font-size:11px;padding:5px 12px;border:1px solid var(--border-md);border-radius:20px;background:var(--surface);color:var(--ink-sub);cursor:pointer;}
-
+/* ===== 管理者画面 ===== */
+.admin-wrap{padding:18px 16px;}
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
 .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow);}
 .stat-label{font-size:10px;color:var(--ink-hint);margin-bottom:6px;letter-spacing:0.04em;}
 .stat-val{font-size:24px;font-weight:600;font-family:var(--serif);}
 .stat-val.g{color:var(--moss);}.stat-val.r{color:var(--verm);}.stat-val.a{color:var(--gold);}.stat-val.b{color:var(--indigo);}
-
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:var(--shadow);}
 .card-eyebrow{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-hint);margin-bottom:12px;}
-.field{margin-bottom:12px;}
-.field label{display:block;font-size:11px;font-weight:600;color:var(--ink-sub);letter-spacing:0.05em;margin-bottom:5px;}
-input[type=text],input[type=password],input[type=date],input[type=number],select{
-  width:100%;font-family:var(--sans);font-size:14px;
-  border:1px solid var(--border-md);border-radius:var(--radius-sm);
-  padding:10px 13px;background:var(--surface);color:var(--ink);
-  outline:none;appearance:none;transition:border-color 0.15s,box-shadow 0.15s;
-}
-input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,53,42,0.08);}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-
 .btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px 18px;border-radius:var(--radius-sm);border:1px solid var(--border-md);font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;background:var(--surface);color:var(--ink);transition:opacity 0.15s;}
 .btn:active{opacity:0.7;}
 .btn-primary{background:var(--ink);color:#fff;border-color:var(--ink);}
@@ -200,24 +134,28 @@ input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,
 .btn-moss{background:var(--moss-bg);color:var(--moss);border-color:var(--moss-bd);}
 .btn-danger{background:var(--verm-bg);color:var(--verm);border-color:var(--verm-bd);}
 .btn-sm{padding:5px 12px;font-size:12px;width:auto;border-radius:var(--radius-xs);}
-
 .admin-ev-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;box-shadow:var(--shadow);overflow:hidden;}
 .admin-ev-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
-.admin-ev-name{font-family:var(--serif);font-size:16px;font-weight:400;letter-spacing:0.06em;}
+.admin-ev-name{font-family:var(--serif);font-size:15px;font-weight:400;letter-spacing:0.06em;}
 .admin-ev-meta{font-size:11px;color:var(--ink-sub);margin-top:3px;}
 .admin-ev-stats{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--surface2);}
-.admin-ev-stat{flex:1;padding:10px 12px;text-align:center;border-right:1px solid var(--border);}
+.admin-ev-stat{flex:1;padding:10px 8px;text-align:center;border-right:1px solid var(--border);}
 .admin-ev-stat:last-child{border-right:none;}
-.admin-ev-stat-label{font-size:10px;color:var(--ink-hint);margin-bottom:3px;}
-.admin-ev-stat-val{font-size:16px;font-weight:600;font-family:var(--serif);}
+.admin-ev-stat-label{font-size:9px;color:var(--ink-hint);margin-bottom:3px;}
+.admin-ev-stat-val{font-size:15px;font-weight:600;font-family:var(--serif);}
 .member-list{padding:0 16px;}
 .member-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border);}
 .member-row:last-child{border-bottom:none;}
 .member-name{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.mini-sel{font-size:11px;padding:4px 6px!important;min-width:60px;}
 .admin-ev-footer{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--border);background:var(--surface2);}
 
-/* ===== MODAL ===== */
+/* スーパー管理者 */
+.super-section{margin-top:8px;border-top:1px solid var(--border);padding-top:16px;}
+.admin-list-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.admin-list-item:last-child{border-bottom:none;}
+.admin-list-name{flex:1;font-size:14px;font-weight:500;}
+
+/* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,18,8,0.55);z-index:100;align-items:flex-end;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal{background:var(--surface);border-radius:var(--radius) var(--radius) 0 0;padding:28px 24px 44px;width:100%;max-width:430px;}
@@ -225,34 +163,15 @@ input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,
 .modal-sub{font-size:13px;color:var(--ink-sub);margin-bottom:20px;}
 .modal-close{float:right;font-size:20px;border:none;background:none;color:var(--ink-hint);cursor:pointer;margin-top:-4px;}
 
-/* ===== DEMO ===== */
-.demo-wrap{padding:40px 20px;}
-.demo-kamon{font-size:40px;text-align:center;margin-bottom:16px;opacity:0.3;}
-.demo-title{font-family:var(--serif);font-size:20px;font-weight:400;margin-bottom:6px;text-align:center;letter-spacing:0.1em;}
-.demo-sub{font-size:13px;color:var(--ink-sub);margin-bottom:24px;text-align:center;}
-
-/* ===== MISC ===== */
+/* MISC */
 .loading{text-align:center;padding:48px 20px;color:var(--ink-hint);font-size:14px;}
 .spinner{width:22px;height:22px;border:2px solid var(--border-md);border-top-color:var(--verm);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .empty-state{text-align:center;padding:32px 20px;color:var(--ink-hint);font-size:13px;}
 .empty-icon{font-size:32px;margin-bottom:8px;opacity:0.4;}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 22px;border-radius:20px;font-size:12px;z-index:200;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;letter-spacing:0.03em;}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 22px;border-radius:20px;font-size:12px;z-index:200;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;}
-.section-title{font-family:var(--serif);font-size:13px;font-weight:400;color:var(--ink-sub);letter-spacing:0.08em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
-.section-title::before{content:'';width:3px;height:13px;background:var(--verm);border-radius:2px;display:inline-block;}
-.submit-area{margin-top:14px;}
-.btn-submit{
-  width:100%;padding:14px;border-radius:var(--radius-sm);
-  background:var(--ink);color:#fff;border:none;
-  font-family:var(--sans);font-size:14px;font-weight:600;
-  cursor:pointer;letter-spacing:0.06em;transition:opacity 0.15s;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.btn-submit:active{opacity:0.75;}
-.btn-submit:disabled{background:var(--ink-hint);cursor:not-allowed;}
-.btn-submit.done{background:var(--moss);}
-.answer-pending{color:var(--ink-hint);font-size:12px;text-align:center;margin-top:10px;}
+.err-msg{background:var(--verm-bg);border:1px solid var(--verm-bd);border-radius:var(--radius-xs);padding:8px 12px;font-size:12px;color:var(--verm);margin-bottom:10px;}
 </style>
 </head>
 <body>
@@ -260,7 +179,7 @@ input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,
   <div class="header">
     <div class="header-en">Shokujidokoro</div>
     <div class="header-ja">食事処 えん</div>
-    <svg class="header-kamon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class="header-kamon" viewBox="0 0 100 100" fill="none">
       <circle cx="50" cy="50" r="45" stroke="white" stroke-width="1.5"/>
       <circle cx="50" cy="50" r="35" stroke="white" stroke-width="1"/>
       <circle cx="50" cy="50" r="5" fill="white"/>
@@ -276,42 +195,56 @@ input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,
     <div class="avatar" id="avatar-el">？</div>
     <div class="profile-info">
       <div class="profile-name" id="profile-name"></div>
-      <div class="profile-sub">LINE でログイン済み</div>
+      <div class="profile-sub" id="profile-sub">LINE でログイン済み</div>
     </div>
     <div class="profile-actions" id="profile-actions"></div>
   </div>
 
-  <!-- ユーザーページ -->
-  <div class="page active" id="page-member">
-    <div class="tab-bar">
-      <div class="tab-btn active" id="tab-open" onclick="switchUserTab('open')">受付中</div>
-      <div class="tab-btn" id="tab-all" onclick="switchUserTab('all')">すべて</div>
-    </div>
-    <div style="padding:18px 16px;" id="member-content">
-      <div class="loading"><div class="spinner"></div>読み込み中...</div>
-    </div>
-  </div>
-
-  <!-- 管理者ページ -->
-  <div class="page" id="page-admin">
-    <div class="admin-page-header">
-      <button class="back-btn" onclick="showPage('member')">← 一覧へ戻る</button>
-      <div class="admin-page-title">管理者画面</div>
-    </div>
-    <div id="admin-content">
-      <div class="loading"><div class="spinner"></div>読み込み中...</div>
-    </div>
-  </div>
-
-  <!-- ログイン画面 -->
-  <div class="page" id="page-login">
-    <div class="demo-wrap">
-      <div class="demo-kamon">家</div>
-      <div class="demo-title">食事処 えん</div>
-      <div class="demo-sub">お名前を入力してご参加ください</div>
+  <!-- P1: LINEログイン -->
+  <div class="page active" id="page-login">
+    <div class="login-wrap">
+      <div class="login-kamon">家</div>
+      <div class="login-title">食事処 えん</div>
+      <div class="login-sub">お名前を入力してご参加ください</div>
       <div class="field"><input type="text" id="demo-name" placeholder="例：山田 太郎"/></div>
       <button class="btn btn-primary" onclick="demoLogin()">参加する</button>
-      <button class="btn" onclick="showAdminLogin()" style="margin-top:8px;">管理者として入る</button>
+      <button class="btn" onclick="openAdminModal()" style="margin-top:8px;">管理者としてログイン</button>
+    </div>
+  </div>
+
+  <!-- P2: 主催者選択 -->
+  <div class="page" id="page-host">
+    <div class="page-header">
+      <div class="page-header-title">主催者を選んでください</div>
+    </div>
+    <div style="padding:16px;">
+      <div id="host-list"><div class="loading"><div class="spinner"></div>読み込み中...</div></div>
+    </div>
+  </div>
+
+  <!-- P3: イベント一覧 (user) -->
+  <div class="page" id="page-events">
+    <div class="page-header">
+      <button class="back-btn" onclick="showPage('host')">← 主催者に戻る</button>
+      <div class="page-header-title" id="host-title"></div>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-btn active" id="tab-open" onclick="switchUserTab('open')">受付中</div>
+      <div class="tab-btn" id="tab-all"  onclick="switchUserTab('all')">すべて</div>
+    </div>
+    <div class="ev-list" id="ev-list">
+      <div class="loading"><div class="spinner"></div>読み込み中...</div>
+    </div>
+  </div>
+
+  <!-- P4: 管理者画面 -->
+  <div class="page" id="page-admin">
+    <div class="page-header">
+      <button class="back-btn" onclick="adminBack()">← 戻る</button>
+      <div class="page-header-title" id="admin-title">管理者画面</div>
+    </div>
+    <div class="admin-wrap" id="admin-content">
+      <div class="loading"><div class="spinner"></div>読み込み中...</div>
     </div>
   </div>
 </div>
@@ -321,31 +254,46 @@ input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,
   <div class="modal">
     <button class="modal-close" onclick="closeAdminModal()">✕</button>
     <div class="modal-title">管理者ログイン</div>
-    <div class="modal-sub">パスワードを入力してください</div>
-    <div class="field">
-      <input type="password" id="pw-inp" placeholder="パスワード" onkeydown="if(event.key==='Enter')checkPw()"/>
+    <div class="modal-sub">主催者名とパスワードを入力してください</div>
+    <div id="admin-modal-err"></div>
+    <div class="field"><label>主催者名</label><input type="text" id="admin-name-inp" placeholder="例：北澤 諒"/></div>
+    <div class="field"><label>パスワード</label><input type="password" id="pw-inp" placeholder="パスワード" onkeydown="if(event.key==='Enter')checkAdminPw()"/></div>
+    <button class="btn btn-primary" onclick="checkAdminPw()">ログイン</button>
+    <div style="margin-top:12px;text-align:center;">
+      <span style="font-size:11px;color:var(--ink-hint);cursor:pointer;" onclick="openSuperModal()">スーパー管理者としてログイン</span>
     </div>
-    <button class="btn btn-primary" onclick="checkPw()">ログイン</button>
+  </div>
+</div>
+
+<!-- スーパー管理者モーダル -->
+<div class="modal-overlay" id="super-modal" onclick="closeSuperModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeSuperModal()">✕</button>
+    <div class="modal-title">スーパー管理者</div>
+    <div class="modal-sub">マスターパスワードを入力してください</div>
+    <div id="super-modal-err"></div>
+    <div class="field"><input type="password" id="super-pw-inp" placeholder="マスターパスワード" onkeydown="if(event.key==='Enter')checkSuperPw()"/></div>
+    <button class="btn btn-primary" onclick="checkSuperPw()">ログイン</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const GAS_URL        = 'https://script.google.com/macros/s/AKfycbwaHqH1hFUcCSk-y0CrzpIQ49UKN_KxL7EdiAwRbfqWfXX1txKmIOnB6N3jggpeF_eznw/exec';
+const GAS_URL        = 'https://script.google.com/macros/s/AKfycbzs7xSizv52_TeDQFlPlrG_FTIEj9Mdl2DxKf9QbYkTUR8fIK7XEJT8RGmylmtrqEA9yQ/exec';
 const LIFF_ID        = '2009962315-GErGmtBd';
-const ADMIN_PASSWORD = 'adminpass';
-const ADMIN_LINE_IDS = ['U8b7962536d1184f9c1c97e71055a9d87'];
+const SUPER_PW_LOCAL = 'adminpass'; // スーパー管理者PW（GAS側と一致させること）
+const PRICE_BRING    = 2500;
+const PRICE_NOBRING  = 4500;
 
-// ボトル持ち込み料金設定
-const PRICE_BRING   = 2500; // ボトル持ち込みあり
-const PRICE_NOBRING = 4500; // ボトル持ち込みなし
-
-let lineProfile   = null;
-let events        = [];
-let adminUnlocked = false;
-let isLiffEnv     = false;
-let userTab       = 'open'; // 'open' | 'all'
+let lineProfile    = null;
+let isLiffEnv      = false;
+let admins         = []; // [{id,name}]
+let selectedHost   = null; // {id,name}
+let events         = [];
+let userTab        = 'open';
+let currentAdmin   = null; // ログイン中の管理者 {id,name}
+let isSuperAdmin   = false;
 
 // =====================================================================
 // 初期化
@@ -358,9 +306,9 @@ async function init() {
     const profile = await liff.getProfile();
     lineProfile = profile;
     showProfile(profile);
-    showPage('member');
-    await loadEvents();
-    renderMemberView();
+    await loadAdmins();
+    showPage('host');
+    renderHostList();
   } catch(err) {
     console.warn('LIFF failed:', err.message);
     showPage('login');
@@ -377,27 +325,43 @@ function showProfile(p) {
 
 function renderProfileActions() {
   const el = document.getElementById('profile-actions');
-  if (adminUnlocked) {
+  if (currentAdmin || isSuperAdmin) {
+    const label = isSuperAdmin ? 'スーパー管理者' : currentAdmin.name;
     el.innerHTML = `
-      <button class="pill-btn admin-panel" onclick="showPage('admin')">管理者画面</button>
+      <button class="pill-btn admin-panel" onclick="showPage('admin')">${label}</button>
       <button class="pill-btn logout" onclick="adminLogout()">ログアウト</button>`;
   } else {
     el.innerHTML = `<button class="pill-btn admin-login" onclick="openAdminModal()">管理者としてログイン</button>`;
   }
 }
 
+// =====================================================================
+// API
+// =====================================================================
+async function api(params) {
+  const qs = new URLSearchParams(params).toString();
+  const res = await fetch(`${GAS_URL}?${qs}`, { method: 'GET' });
+  const json = await res.json();
+  if (!json.ok) throw new Error(json.error);
+  return json.data;
+}
+
+async function loadAdmins() {
+  try {
+    admins = await api({ action: 'getAdmins' });
+  } catch(e) { admins = []; }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
-  if (name === 'admin' && adminUnlocked) renderAdminView();
-  if (name === 'member' && lineProfile) renderMemberView();
-}
-
-function switchUserTab(tab) {
-  userTab = tab;
-  document.getElementById('tab-open').classList.toggle('active', tab === 'open');
-  document.getElementById('tab-all').classList.toggle('active', tab === 'all');
-  renderMemberView();
 }
 
 // =====================================================================
@@ -408,109 +372,82 @@ function demoLogin() {
   if (!name) { alert('お名前を入力してください'); return; }
   lineProfile = { userId: 'demo-' + encodeURIComponent(name), displayName: name, pictureUrl: null };
   showProfile(lineProfile);
-  showPage('member');
-  loadEvents().then(() => renderMemberView());
-}
-
-function showAdminLogin() {
-  lineProfile = { userId: 'demo-admin', displayName: '管理者', pictureUrl: null };
-  showProfile(lineProfile);
-  document.getElementById('profile-actions').innerHTML =
-    `<button class="pill-btn admin-login" onclick="openAdminModal()">管理者としてログイン</button>`;
-  showPage('member');
-  loadEvents().then(() => renderMemberView());
+  loadAdmins().then(() => { showPage('host'); renderHostList(); });
 }
 
 // =====================================================================
-// 管理者モーダル
+// 主催者選択
 // =====================================================================
-function openAdminModal() {
-  document.getElementById('admin-modal').classList.add('open');
-  setTimeout(() => document.getElementById('pw-inp').focus(), 100);
-}
-function closeAdminModal(e) {
-  if (e && e.target !== document.getElementById('admin-modal')) return;
-  document.getElementById('admin-modal').classList.remove('open');
-  document.getElementById('pw-inp').value = '';
-}
-function checkPw() {
-  if (document.getElementById('pw-inp').value === ADMIN_PASSWORD) {
-    adminUnlocked = true;
-    document.getElementById('admin-modal').classList.remove('open');
-    document.getElementById('pw-inp').value = '';
-    renderProfileActions();
-    showPage('admin');
-    showToast('管理者としてログインしました');
-  } else { alert('パスワードが違います'); }
-}
-function adminLogout() {
-  if (!confirm('管理者からログアウトしますか？')) return;
-  adminUnlocked = false;
-  renderProfileActions();
-  showPage('member');
-  renderMemberView();
-  showToast('ログアウトしました');
-}
-
-// =====================================================================
-// API (全GETで通信)
-// =====================================================================
-async function api(params) {
-  const qs = new URLSearchParams(params).toString();
-  const res = await fetch(`${GAS_URL}?${qs}`, { method: 'GET' });
-  const json = await res.json();
-  if (!json.ok) throw new Error(json.error);
-  return json.data;
-}
-
-async function loadEvents() {
-  try {
-    const data = await api({ action: 'getEvents' });
-    events = Array.isArray(data) ? data : [];
-  } catch(e) {
-    console.warn('loadEvents failed:', e.message);
-    events = [];
+async function renderHostList() {
+  const el = document.getElementById('host-list');
+  if (!admins.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">🌸</div>主催者がまだいません</div>';
+    return;
   }
+  // 各主催者のイベント数を取得
+  let html = '<div class="host-grid">';
+  for (const a of admins) {
+    let evCount = 0;
+    try {
+      const evs = await api({ action: 'getEvents', adminId: a.id });
+      evCount = Array.isArray(evs) ? evs.length : 0;
+    } catch(e) {}
+    html += `<div class="host-card" onclick="selectHost('${a.id}','${esc(a.name)}')">
+      <div class="host-icon">${esc(a.name.slice(0,1))}</div>
+      <div>
+        <div class="host-name">${esc(a.name)}</div>
+        <div class="host-count">イベント ${evCount}件</div>
+      </div>
+      <span style="color:var(--ink-hint);font-size:18px;margin-left:auto;">›</span>
+    </div>`;
+  }
+  html += '</div>';
+  el.innerHTML = html;
 }
 
-async function loadMembers(eventId) {
+async function selectHost(id, name) {
+  selectedHost = { id, name };
+  document.getElementById('host-title').textContent = name;
+  showPage('events');
+  await loadHostEvents();
+  renderEventList();
+}
+
+async function loadHostEvents() {
   try {
-    const data = await api({ action: 'getMembers', eventId });
-    return Array.isArray(data) ? data : [];
-  } catch(e) { return []; }
+    const data = await api({ action: 'getEvents', adminId: selectedHost.id });
+    events = Array.isArray(data) ? data : [];
+  } catch(e) { events = []; }
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+function switchUserTab(tab) {
+  userTab = tab;
+  document.getElementById('tab-open').classList.toggle('active', tab==='open');
+  document.getElementById('tab-all').classList.toggle('active', tab==='all');
+  renderEventList();
 }
 
-// =====================================================================
-// 参加者ビュー
-// =====================================================================
-async function renderMemberView() {
-  const el = document.getElementById('member-content');
+async function renderEventList() {
+  const el = document.getElementById('ev-list');
   el.innerHTML = '<div class="loading"><div class="spinner"></div>読み込み中...</div>';
   const today = new Date().toISOString().split('T')[0];
+  const filtered = userTab === 'open'
+    ? events.filter(ev => !ev.deadline || ev.deadline >= today)
+    : events;
 
-  const openEvents   = events.filter(ev => !ev.deadline || ev.deadline >= today);
-  const closedEvents = events.filter(ev => ev.deadline && ev.deadline < today);
-  const showEvents   = userTab === 'open' ? openEvents : events;
-
-  if (!showEvents.length) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-icon">🌸</div>${userTab === 'open' ? '現在受付中のイベントはありません' : 'イベントがありません'}</div>`;
+  if (!filtered.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">🌸</div>${userTab==='open'?'受付中のイベントはありません':'イベントがありません'}</div>`;
     return;
   }
 
   let html = '';
-  for (const ev of showEvents) {
+  for (const ev of filtered) {
     const expired = ev.deadline && ev.deadline < today;
     const members = await loadMembers(ev.id);
     const me = members.find(m => String(m.lineUserId) === String(lineProfile.userId));
-    const myStatus = me ? me.status  : '';
-    const myBottle = me ? me.note    : ''; // noteフィールドをボトル持ち込みに流用
+    const myStatus = me ? me.status : '';
+    const myBottle = me ? me.note   : '';
+    const isAnswered = myStatus && myBottle;
 
     html += `<div class="ev-card ${expired?'expired':''}">
       <div class="ev-card-header">
@@ -528,15 +465,12 @@ async function renderMemberView() {
       html += `<div class="expired-notice">回答受付は終了しています</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <span class="badge badge-${myStatus||'pending'}">${sLabel}</span>
-          ${myBottle ? `<span class="badge ${myBottle==='bring'?'badge-bring':'badge-nobring'}">${bLabel}</span>` : ''}
+          ${myBottle?`<span class="badge ${myBottle==='bring'?'badge-bring':'badge-nobring'}">${bLabel}</span>`:''}
         </div>`;
     } else {
-      // 送信済みかどうかで表示を変える
-      const isAnswered = myStatus && myBottle;
-      const submitLabel = isAnswered ? '回答済み ✓' : '回答する';
-      const submitClass = isAnswered ? 'done' : '';
-      html += `<div class="answer-section">
-        <div class="answer-label">出欠を回答する</div>
+      html += `
+      <div class="answer-section">
+        <div class="section-label">📋 出欠を回答する</div>
         <div class="answer-btns" id="ans-${ev.id}">
           <button class="answer-btn ${myStatus==='attend'?'sel-attend':''}" onclick="selectAnswer('${ev.id}','attend',this)">参加する</button>
           <button class="answer-btn ${myStatus==='absent'?'sel-absent':''}" onclick="selectAnswer('${ev.id}','absent',this)">不参加</button>
@@ -544,22 +478,20 @@ async function renderMemberView() {
         </div>
       </div>
       <div class="divider-row"></div>
-      <div class="bottle-section">
-        <div class="bottle-label">ボトル持ち込み</div>
+      <div>
+        <div class="section-label">🍾 ボトル持ち込み</div>
         <div class="bottle-opts" id="bot-${ev.id}">
           <button class="bottle-btn ${myBottle==='bring'?'sel-bring':''}" onclick="selectBottle('${ev.id}','bring',this)">
-            持ち込む
-            <small>¥${PRICE_BRING.toLocaleString()}</small>
+            持ち込む<small>¥${PRICE_BRING.toLocaleString()}</small>
           </button>
           <button class="bottle-btn ${myBottle==='nobring'?'sel-nobring':''}" onclick="selectBottle('${ev.id}','nobring',this)">
-            持ち込まない
-            <small>¥${PRICE_NOBRING.toLocaleString()}</small>
+            持ち込まない<small>¥${PRICE_NOBRING.toLocaleString()}</small>
           </button>
         </div>
       </div>
       <div class="submit-area">
-        <button class="btn-submit ${submitClass}" id="submit-${ev.id}" onclick="submitAll('${ev.id}')">
-          ${submitLabel}
+        <button class="btn-submit ${isAnswered?'done':''}" id="submit-${ev.id}" onclick="submitAll('${ev.id}')">
+          ${isAnswered?'回答済み ✓':'回答する'}
         </button>
       </div>`;
     }
@@ -568,44 +500,42 @@ async function renderMemberView() {
   el.innerHTML = html;
 }
 
-// 選択のみ（送信しない）
+async function loadMembers(eventId) {
+  try {
+    const data = await api({ action:'getMembers', eventId });
+    return Array.isArray(data) ? data : [];
+  } catch(e) { return []; }
+}
+
 function selectAnswer(evId, status, btnEl) {
-  const btns = btnEl.closest('.answer-btns').querySelectorAll('.answer-btn');
-  btns.forEach(b => b.className='answer-btn');
+  btnEl.closest('.answer-btns').querySelectorAll('.answer-btn').forEach(b=>b.className='answer-btn');
   btnEl.classList.add('sel-'+status);
-  // 送信ボタンをリセット
-  const btn = document.getElementById('submit-'+evId);
-  if (btn) { btn.textContent='回答する'; btn.classList.remove('done'); btn.disabled=false; }
+  resetSubmitBtn(evId);
 }
 
 function selectBottle(evId, bottle, btnEl) {
-  const btns = btnEl.closest('.bottle-opts').querySelectorAll('.bottle-btn');
-  btns.forEach(b => b.className='bottle-btn');
+  btnEl.closest('.bottle-opts').querySelectorAll('.bottle-btn').forEach(b=>b.className='bottle-btn');
   btnEl.classList.add(bottle==='bring'?'sel-bring':'sel-nobring');
-  // 送信ボタンをリセット
+  resetSubmitBtn(evId);
+}
+
+function resetSubmitBtn(evId) {
   const btn = document.getElementById('submit-'+evId);
   if (btn) { btn.textContent='回答する'; btn.classList.remove('done'); btn.disabled=false; }
 }
 
-// 一括送信
 async function submitAll(evId) {
-  // 出欠の選択状態を取得
   const ansArea = document.getElementById('ans-'+evId);
-  const selAns  = ansArea ? ansArea.querySelector('.answer-btn.sel-attend, .answer-btn.sel-absent, .answer-btn.sel-pending') : null;
+  const selAns  = ansArea && ansArea.querySelector('.sel-attend,.sel-absent,.sel-pending');
   const status  = selAns ? (selAns.classList.contains('sel-attend')?'attend':selAns.classList.contains('sel-absent')?'absent':'pending') : '';
-
-  // ボトルの選択状態を取得
   const botArea = document.getElementById('bot-'+evId);
-  const selBot  = botArea ? botArea.querySelector('.bottle-btn.sel-bring, .bottle-btn.sel-nobring') : null;
+  const selBot  = botArea && botArea.querySelector('.sel-bring,.sel-nobring');
   const bottle  = selBot ? (selBot.classList.contains('sel-bring')?'bring':'nobring') : '';
-
   if (!status) { showToast('出欠を選択してください'); return; }
   if (!bottle) { showToast('ボトル持ち込みを選択してください'); return; }
-
   const pay = bottle === 'bring' ? PRICE_BRING : PRICE_NOBRING;
   const btn = document.getElementById('submit-'+evId);
   if (btn) { btn.textContent='送信中...'; btn.disabled=true; }
-
   try {
     await api({ action:'upsertMember', eventId:evId,
       lineUserId:lineProfile.userId, lineName:lineProfile.displayName,
@@ -619,21 +549,99 @@ async function submitAll(evId) {
 }
 
 // =====================================================================
+// 管理者モーダル
+// =====================================================================
+function openAdminModal() {
+  document.getElementById('admin-modal').classList.add('open');
+  document.getElementById('admin-modal-err').innerHTML = '';
+  setTimeout(() => document.getElementById('admin-name-inp').focus(), 100);
+}
+function closeAdminModal(e) {
+  if (e && e.target !== document.getElementById('admin-modal')) return;
+  document.getElementById('admin-modal').classList.remove('open');
+}
+async function checkAdminPw() {
+  const name = document.getElementById('admin-name-inp').value.trim();
+  const pw   = document.getElementById('pw-inp').value;
+  if (!name||!pw) { document.getElementById('admin-modal-err').innerHTML='<div class="err-msg">主催者名とパスワードを入力してください</div>'; return; }
+  try {
+    const result = await api({ action:'loginAdmin', name, password: pw });
+    currentAdmin = result;
+    isSuperAdmin = false;
+    document.getElementById('admin-modal').classList.remove('open');
+    renderProfileActions();
+    showPage('admin');
+    renderAdminView();
+    showToast(`${result.name} としてログインしました`);
+  } catch(e) {
+    document.getElementById('admin-modal-err').innerHTML = `<div class="err-msg">${e.message}</div>`;
+  }
+}
+
+function openSuperModal() {
+  document.getElementById('admin-modal').classList.remove('open');
+  document.getElementById('super-modal').classList.add('open');
+  document.getElementById('super-modal-err').innerHTML = '';
+  setTimeout(() => document.getElementById('super-pw-inp').focus(), 100);
+}
+function closeSuperModal(e) {
+  if (e && e.target !== document.getElementById('super-modal')) return;
+  document.getElementById('super-modal').classList.remove('open');
+}
+function checkSuperPw() {
+  if (document.getElementById('super-pw-inp').value === SUPER_PW_LOCAL) {
+    isSuperAdmin = true; currentAdmin = null;
+    document.getElementById('super-modal').classList.remove('open');
+    renderProfileActions();
+    showPage('admin');
+    renderAdminView();
+    showToast('スーパー管理者としてログインしました');
+  } else {
+    document.getElementById('super-modal-err').innerHTML = '<div class="err-msg">パスワードが違います</div>';
+  }
+}
+
+function adminLogout() {
+  if (!confirm('ログアウトしますか？')) return;
+  currentAdmin = null; isSuperAdmin = false;
+  renderProfileActions();
+  if (lineProfile) { showPage('host'); renderHostList(); }
+  else showPage('login');
+  showToast('ログアウトしました');
+}
+
+function adminBack() {
+  if (lineProfile) { showPage('host'); renderHostList(); }
+  else showPage('login');
+}
+
+// =====================================================================
 // 管理者ビュー
 // =====================================================================
 async function renderAdminView() {
   const el = document.getElementById('admin-content');
   el.innerHTML = '<div class="loading"><div class="spinner"></div>読み込み中...</div>';
-  const today = new Date().toISOString().split('T')[0];
 
-  let ta=0, tb=0, tc=0, tp=0;
-  for (const ev of events) {
+  if (isSuperAdmin) {
+    renderSuperAdminView();
+    return;
+  }
+
+  // 通常管理者
+  document.getElementById('admin-title').textContent = currentAdmin.name + ' の管理画面';
+  const today = new Date().toISOString().split('T')[0];
+  let myEvents = [];
+  try {
+    const data = await api({ action:'getEvents', adminId: currentAdmin.id });
+    myEvents = Array.isArray(data) ? data : [];
+  } catch(e) {}
+
+  let ta=0,tb=0,tc=0,tp=0;
+  for (const ev of myEvents) {
     const members = await loadMembers(ev.id);
     ev._members = members;
     members.forEach(m => {
-      if (m.status==='attend') ta++;
-      else if (m.status==='absent') tb++;
-      else tc++;
+      if (m.status==='attend') ta++; else if (m.status==='absent') tb++; else tc++;
       tp += parseInt(m.pay)||0;
     });
   }
@@ -655,7 +663,7 @@ async function renderAdminView() {
       <button class="btn btn-verm" id="add-ev-btn" onclick="addEvent()">日程を追加する</button>
     </div>`;
 
-  events.forEach(ev => {
+  myEvents.forEach(ev => {
     const expired = ev.deadline && ev.deadline < today;
     const members = ev._members||[];
     const attend  = members.filter(m=>m.status==='attend').length;
@@ -674,54 +682,35 @@ async function renderAdminView() {
         <span class="badge ${expired?'badge-expired':'badge-open'}">${expired?'期限切れ':'受付中'}</span>
       </div>
       <div class="admin-ev-stats">
-        <div class="admin-ev-stat">
-          <div class="admin-ev-stat-label">参加</div>
-          <div class="admin-ev-stat-val" style="color:var(--moss)">${attend}</div>
-        </div>
-        <div class="admin-ev-stat">
-          <div class="admin-ev-stat-label">不参加</div>
-          <div class="admin-ev-stat-val" style="color:var(--verm)">${absent}</div>
-        </div>
-        <div class="admin-ev-stat">
-          <div class="admin-ev-stat-label">🍾持込</div>
-          <div class="admin-ev-stat-val" style="color:var(--moss)">${bring}</div>
-        </div>
-        <div class="admin-ev-stat">
-          <div class="admin-ev-stat-label">持込なし</div>
-          <div class="admin-ev-stat-val" style="color:var(--indigo)">${nobring}</div>
-        </div>
-        <div class="admin-ev-stat">
-          <div class="admin-ev-stat-label">集金合計</div>
-          <div class="admin-ev-stat-val" style="font-size:13px;">¥${pay.toLocaleString()}</div>
-        </div>
+        <div class="admin-ev-stat"><div class="admin-ev-stat-label">参加</div><div class="admin-ev-stat-val" style="color:var(--moss)">${attend}</div></div>
+        <div class="admin-ev-stat"><div class="admin-ev-stat-label">不参加</div><div class="admin-ev-stat-val" style="color:var(--verm)">${absent}</div></div>
+        <div class="admin-ev-stat"><div class="admin-ev-stat-label">🍾持込</div><div class="admin-ev-stat-val" style="color:var(--moss)">${bring}</div></div>
+        <div class="admin-ev-stat"><div class="admin-ev-stat-label">持込なし</div><div class="admin-ev-stat-val" style="color:var(--indigo)">${nobring}</div></div>
+        <div class="admin-ev-stat"><div class="admin-ev-stat-label">集金</div><div class="admin-ev-stat-val" style="font-size:12px;">¥${pay.toLocaleString()}</div></div>
       </div>
       <div class="member-list">`;
-
     if (!members.length) {
       html += '<div style="padding:14px 0;font-size:13px;color:var(--ink-hint);text-align:center;">まだ参加者がいません</div>';
     } else {
       members.forEach(m => {
-        const sLabel = m.status==='attend'?'参加':m.status==='absent'?'不参加':'未回答';
-        const bLabel = m.note==='bring'?'🍾持込':m.note==='nobring'?'持込なし':'―';
-        const mPay   = parseInt(m.pay)||0;
+        const sL = m.status==='attend'?'参加':m.status==='absent'?'不参加':'未回答';
+        const bL = m.note==='bring'?'🍾持込':m.note==='nobring'?'持込なし':'―';
         html += `<div class="member-row">
           <div class="member-name">${esc(m.lineName)}</div>
-          <span class="badge badge-${m.status||'pending'}" style="flex-shrink:0;">${sLabel}</span>
-          <span style="font-size:11px;color:var(--ink-sub);flex-shrink:0;">${bLabel}</span>
-          <span style="font-size:12px;font-weight:600;flex-shrink:0;">¥${mPay.toLocaleString()}</span>
+          <span class="badge badge-${m.status||'pending'}">${sL}</span>
+          <span style="font-size:11px;color:var(--ink-sub);flex-shrink:0;">${bL}</span>
+          <span style="font-size:12px;font-weight:600;flex-shrink:0;">¥${parseInt(m.pay)||0}</span>
           <button class="btn btn-sm btn-danger" onclick="adminDeleteMember('${m.id}')">削除</button>
         </div>`;
       });
     }
-
     html += `</div>
       <div class="admin-ev-footer">
         <button class="btn btn-sm btn-moss" onclick="adminExportCSV('${ev.id}')">CSV出力</button>
-        <button class="btn btn-sm btn-danger" onclick="adminDeleteEvent('${ev.id}')">日程を削除</button>
+        <button class="btn btn-sm btn-danger" onclick="adminDeleteEvent('${ev.id}')">削除</button>
       </div>
     </div>`;
   });
-
   el.innerHTML = html;
 }
 
@@ -731,56 +720,92 @@ async function addEvent() {
   const deadline = document.getElementById('ev-deadline').value;
   if (!name||!date) { alert('イベント名と開催日は必須です'); return; }
   const btn = document.getElementById('add-ev-btn');
-  btn.textContent = '追加中...'; btn.disabled = true;
+  btn.textContent='追加中...'; btn.disabled=true;
   try {
-    await api({ action:'addEvent', name, date, deadline });
+    await api({ action:'addEvent', adminId: currentAdmin.id, name, date, deadline });
     showToast('日程を追加しました ✓');
-    await loadEvents();
     renderAdminView();
   } catch(e) {
-    alert('追加に失敗しました: ' + e.message);
-    btn.textContent = '日程を追加する'; btn.disabled = false;
+    alert('追加に失敗しました: '+e.message);
+    btn.textContent='日程を追加する'; btn.disabled=false;
   }
 }
 
 async function adminDeleteEvent(id) {
-  if (!confirm('この日程と参加者データをすべて削除しますか？')) return;
+  if (!confirm('この日程を削除しますか？')) return;
   try {
     await api({ action:'deleteEvent', id });
     showToast('削除しました');
-    await loadEvents(); renderAdminView();
-  } catch(e) { alert('削除に失敗しました: ' + e.message); }
+    renderAdminView();
+  } catch(e) { alert('削除に失敗しました'); }
 }
 
-async function adminDeleteMember(mId) {
+async function adminDeleteMember(id) {
   if (!confirm('この参加者を削除しますか？')) return;
   try {
-    await api({ action:'deleteMember', id:mId });
+    await api({ action:'deleteMember', id });
     showToast('削除しました');
-    await loadEvents(); renderAdminView();
-  } catch(e) { alert('削除に失敗しました: ' + e.message); }
+    renderAdminView();
+  } catch(e) { alert('削除に失敗しました'); }
 }
 
 async function adminExportCSV(evId) {
-  const ev = events.find(e=>e.id===evId);
   const members = await loadMembers(evId);
-  const sm = {attend:'参加',absent:'不参加',pending:'未回答'};
-  const sb = {bring:'ボトル持込あり',nobring:'持込なし'};
-  const rows = [
-    ['LINE名','出欠','ボトル持込','料金','更新日時'],
-    ...members.map(m=>[
-      m.lineName,
-      sm[m.status]||m.status,
-      sb[m.note]||'未選択',
-      m.pay||0,
-      m.updatedAt||''
-    ])
-  ];
-  const csv = '\uFEFF'+rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
-  a.download = `${ev?ev.name:evId}_参加管理.csv`;
-  a.click();
+  const sm={attend:'参加',absent:'不参加',pending:'未回答'};
+  const sb={bring:'ボトル持込あり',nobring:'持込なし'};
+  const rows=[['LINE名','出欠','ボトル持込','料金','更新日時'],
+    ...members.map(m=>[m.lineName,sm[m.status]||m.status,sb[m.note]||'未選択',m.pay||0,m.updatedAt||''])];
+  const csv='\uFEFF'+rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  a.download=`参加管理_${evId}.csv`; a.click();
+}
+
+// =====================================================================
+// スーパー管理者ビュー
+// =====================================================================
+async function renderSuperAdminView() {
+  document.getElementById('admin-title').textContent = 'スーパー管理者';
+  const el = document.getElementById('admin-content');
+  await loadAdmins();
+
+  let adminRows = admins.map(a => `
+    <div class="admin-list-item">
+      <div class="admin-list-name">${esc(a.name)}</div>
+      <button class="btn btn-sm btn-danger" onclick="superDeleteAdmin('${a.id}','${esc(a.name)}')">削除</button>
+    </div>`).join('') || '<div style="color:var(--ink-hint);font-size:13px;padding:8px 0;">管理者がいません</div>';
+
+  el.innerHTML = `
+    <div class="card">
+      <div class="card-eyebrow">管理者を追加</div>
+      <div class="field"><label>主催者名</label><input type="text" id="new-admin-name" placeholder="例：田中 花子"/></div>
+      <div class="field"><label>パスワード</label><input type="password" id="new-admin-pw" placeholder="ログインパスワード"/></div>
+      <button class="btn btn-verm" onclick="superAddAdmin()">管理者を追加する</button>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">管理者一覧</div>
+      <div id="admin-list-wrap">${adminRows}</div>
+    </div>`;
+}
+
+async function superAddAdmin() {
+  const name = document.getElementById('new-admin-name').value.trim();
+  const pw   = document.getElementById('new-admin-pw').value;
+  if (!name||!pw) { alert('名前とパスワードを入力してください'); return; }
+  try {
+    await api({ action:'addAdmin', superPw: SUPER_PW_LOCAL, name, password: pw });
+    showToast(`${name} を追加しました ✓`);
+    renderSuperAdminView();
+  } catch(e) { alert('追加に失敗しました: '+e.message); }
+}
+
+async function superDeleteAdmin(id, name) {
+  if (!confirm(`「${name}」を削除しますか？`)) return;
+  try {
+    await api({ action:'deleteAdmin', superPw: SUPER_PW_LOCAL, id });
+    showToast('削除しました');
+    renderSuperAdminView();
+  } catch(e) { alert('削除に失敗しました: '+e.message); }
 }
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
