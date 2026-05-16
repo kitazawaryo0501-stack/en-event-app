@@ -286,7 +286,7 @@ input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,
 <div class="toast" id="toast"></div>
 
 <script>
-const GAS_URL        = 'https://script.google.com/macros/s/AKfycbwc9LAnpq7ryTeMVrOTCFbFC_yLLEKqoMsAn4TEffoanltGKhrsWekFfwmQXSbq1FsY_Q/exec';
+const GAS_URL        = 'https://script.google.com/macros/s/AKfycbxhOsigifL_McsWYh_nU1SB1HPYLel_e8xhhQfVhdz5NQsGc4rpH4LAYhL-8uVgNpahKg/exec';
 const LIFF_ID        = '2009962315-GErGmtBd';
 const SUPER_PW_LOCAL = 'adminpass'; // スーパー管理者PW（GAS側と一致させること）
 const PRICE_BRING    = 2500;
@@ -690,6 +690,7 @@ async function renderAdminView() {
         <div class="field"><label>開催日</label><input type="date" id="ev-date"/></div>
         <div class="field"><label>回答期限</label><input type="date" id="ev-deadline"/></div>
       </div>
+      <div class="field"><label>開催場所</label><input type="text" id="ev-location" placeholder="例: 食事処えん 新宿店"/></div>
       <button class="btn btn-verm" id="add-ev-btn" onclick="addEvent()">日程を追加する</button>
     </div>`;
 
@@ -707,7 +708,7 @@ async function renderAdminView() {
       <div class="admin-ev-header">
         <div>
           <div class="admin-ev-name">${esc(ev.name)}</div>
-          <div class="admin-ev-meta">開催: ${ev.date}　期限: ${ev.deadline||'未設定'}</div>
+          <div class="admin-ev-meta">開催: ${ev.date}　期限: ${ev.deadline||'未設定'}${ev.location ? '　場所: '+ev.location : ''}</div>
         </div>
         <span class="badge ${expired?'badge-expired':'badge-open'}">${expired?'期限切れ':'受付中'}</span>
       </div>
@@ -752,7 +753,8 @@ async function addEvent() {
   const btn = document.getElementById('add-ev-btn');
   btn.textContent='追加中...'; btn.disabled=true;
   try {
-    await api({ action:'addEvent', adminId: currentAdmin.id, name, date, deadline });
+    const location = document.getElementById('ev-location').value.trim();
+    await api({ action:'addEvent', adminId: currentAdmin.id, name, date, deadline, location });
     showToast('日程を追加しました ✓');
     renderAdminView();
   } catch(e) {
