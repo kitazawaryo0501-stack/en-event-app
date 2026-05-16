@@ -485,6 +485,10 @@ async function renderEventList() {
             <span class="ev-card-info-label">回答期限</span>
             <span class="ev-card-info-val ${isUrgent?'urgent':''}">${formatDate(ev.deadline)}${isUrgent?' ⚠ 期限間近':''}</span>
           </div>
+          ${ev.location ? `<div class="ev-card-info-row">
+            <span class="ev-card-info-label">開催場所</span>
+            <span class="ev-card-info-val">${ev.location}</span>
+          </div>` : ''}
         </div>
       </div>
       <div class="ev-card-body">`;
