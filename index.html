@@ -209,7 +209,7 @@ input:focus,select:focus{border-color:var(--verm);box-shadow:0 0 0 3px rgba(181,
   <!-- P1: LINEログイン -->
   <div class="page active" id="page-login">
     <div class="login-wrap">
-      <div class="login-kamon">家</div>
+      
       <div class="login-title">食事処 えん</div>
       <div class="login-sub">お名前を入力してご参加ください</div>
       <div class="field"><input type="text" id="demo-name" placeholder="例：山田 太郎"/></div>
@@ -342,6 +342,15 @@ function renderProfileActions() {
 }
 
 // =====================================================================
+// ユーティリティ
+// =====================================================================
+function formatDate(val) {
+  if (!val) return '未設定';
+  // "2026-05-22T15:00:00.000Z" → "2026-05-22"
+  return String(val).slice(0, 10);
+}
+
+// =====================================================================
 // API
 // =====================================================================
 async function api(params) {
@@ -470,11 +479,11 @@ async function renderEventList() {
         <div class="ev-card-info">
           <div class="ev-card-info-row">
             <span class="ev-card-info-label">開催日</span>
-            <span class="ev-card-info-val">${ev.date}</span>
+            <span class="ev-card-info-val">${formatDate(ev.date)}</span>
           </div>
           <div class="ev-card-info-row">
             <span class="ev-card-info-label">回答期限</span>
-            <span class="ev-card-info-val ${isUrgent?'urgent':''}">${ev.deadline||'未設定'}${isUrgent?' ⚠ 期限間近':''}</span>
+            <span class="ev-card-info-val ${isUrgent?'urgent':''}">${formatDate(ev.deadline)}${isUrgent?' ⚠ 期限間近':''}</span>
           </div>
         </div>
       </div>
